@@ -51,4 +51,5 @@ public abstract class Entity {
     public void setImg(Image img) {
         this.img = img;
     }
+    // author hnam
 }
