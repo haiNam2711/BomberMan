@@ -13,6 +13,7 @@ import uet.oop.bomberman.entities.Grass;
 import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.keyboarddetect.KeyboardDetect;
+import uet.oop.bomberman.soundplayer.SoundPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class BombermanGame extends Application {
 
 
     public static void main(String[] args) {
+        SoundPlayer.playSound("soundtrack");
         Application.launch(BombermanGame.class);
     }
 
