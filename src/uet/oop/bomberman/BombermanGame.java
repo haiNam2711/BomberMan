@@ -12,6 +12,7 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Grass;
 import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.keyboarddetect.KeyboardDetect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +60,10 @@ public class BombermanGame extends Application {
 
         createMap();
 
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+
         entities.add(bomberman);
+        KeyboardDetect.keyboardPressed(bomberman,scene);
     }
 
     public void createMap() {
