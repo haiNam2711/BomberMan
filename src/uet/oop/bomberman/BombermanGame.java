@@ -72,6 +72,8 @@ public class BombermanGame extends Application {
 
         String[] mapLv1 = GameMap.mapLv1;
 
+
+
         for (int i = 0; i < mapLv1.length; i++) {
 
             for (int j = 0; j < mapLv1[i].length(); j++) {
