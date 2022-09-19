@@ -1,7 +1,10 @@
 package uet.oop.bomberman;
 
-public class Map {
-    public static String[] mapLv1 = {
+public class GameMap {
+
+
+
+    public static final String[] mapLv1 = {
             "###############################",
             "#p     ** *  1 * 2 *  * * *   #",
             "# # # #*# # #*#*# # # #*#*#*# #",
