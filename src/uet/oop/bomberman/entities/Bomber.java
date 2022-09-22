@@ -6,6 +6,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.GameMap;
+import uet.oop.bomberman.entities.enemy.Enemy;
+import uet.oop.bomberman.entities.unmovableobject.Brick;
+import uet.oop.bomberman.entities.unmovableobject.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;
@@ -16,28 +20,50 @@ public class Bomber extends Entity {
     private final int[] changeX = {0, 0, 1, -1};
     private final int[] changeY = {1, -1, 0, 0};
 
+//    public Bomber() {
+//        this.x = 1;
+//        this.y = 1;
+//        this.img = Sprite.player_right.getFxImage();
+//    }
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
     }
+
+
 
     @Override
     public void update() {
 
     }
 
-    public void move(int direction) {
-        List<Entity> entities = (new BombermanGame()).getEntities();
+    public boolean checkMove() {
+        for (Brick brick : GameMap.bricks) {
 
+            System.out.println(brick.x/32);
+            System.out.println(brick.y/32);
+            if (this.checkCollide(brick)) {
+                return false;
+            }
+        }
+        for (Wall wall : GameMap.walls) {
+            if (this.checkCollide(wall)) {
+                return false;
+            }
+        }
+        for (Enemy enemy : GameMap.enemies) {
+            if (this.checkCollide(enemy)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void move(int direction) {
+        System.out.println(GameMap.bricks.size());
         for (int i = 1; i <= moveLength; i++) {
             x += changeX[direction];
             y += changeY[direction];
-            boolean flag = true;
-            for (Entity entity : entities) {
-                if (entity == this) continue;
-                if (this.checkCollide(entity)) {
-                    flag = false;
-                }
-            }
+            boolean flag = checkMove();
             if (flag == false) {
                 x -= changeX[direction];
                 y -= changeY[direction];
