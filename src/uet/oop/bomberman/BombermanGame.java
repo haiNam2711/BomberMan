@@ -59,7 +59,6 @@ public class BombermanGame extends Application {
             @Override
             public void handle(long l) {
                 GameMap.render(gc,canvas);
-                //update();
             }
         };
         timer.start();

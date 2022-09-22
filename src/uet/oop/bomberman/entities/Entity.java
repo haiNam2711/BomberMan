@@ -29,6 +29,9 @@ public abstract class Entity {
         this.img = img;
     }
 
+    public Entity() {
+    }
+
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }
