@@ -68,7 +68,7 @@ public class BombermanGame extends Application {
         Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         GameMap.bomberMan = bomberman;
         KeyboardDetect.keyboardPressed(bomberman, scene);
-        //entities.add(bomberman);
+        
     }
 
     public void createMap() {
@@ -115,4 +115,5 @@ public class BombermanGame extends Application {
 //    public List<Entity> getEntities() {
 //        return entities;
 //    }
+
 }
