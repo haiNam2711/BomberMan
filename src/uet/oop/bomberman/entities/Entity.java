@@ -5,6 +5,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import uet.oop.bomberman.GameMap;
+import uet.oop.bomberman.entities.enemy.Enemy;
+import uet.oop.bomberman.entities.unmovableobject.Brick;
+import uet.oop.bomberman.entities.unmovableobject.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import javafx.geometry.Rectangle2D;
 
@@ -21,6 +25,18 @@ public abstract class Entity {
     protected int y;
 
     protected Image img;
+    protected boolean isExisting = true;
+
+    protected final int[] changeX = {0, 0, 1, -1};
+    protected final int[] changeY = {1, -1, 0, 0};
+
+    public boolean isExisting() {
+        return isExisting;
+    }
+
+    public void setExisting(boolean existing) {
+        isExisting = existing;
+    }
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity(int xUnit, int yUnit, Image img) {
@@ -68,5 +84,24 @@ public abstract class Entity {
     public void setImg(Image img) {
         this.img = img;
     }
-    // author hnam
+
+    public boolean checkCollideWall() {
+        for (Wall wall : GameMap.walls) {
+            if (this.checkCollide(wall)) return true;
+        }
+        return false;
+    }
+    public boolean checkCollideBrick() {
+        for (Brick brick : GameMap.bricks) {
+            if (this.checkCollide(brick)) return true;
+        }
+        return false;
+    }
+    public boolean checkCollideEnemy() {
+        for (Enemy enemy : GameMap.enemies) {
+            if (this.checkCollide(enemy)) return true;
+        }
+        return false;
+    }
+
 }

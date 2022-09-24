@@ -34,7 +34,7 @@ public class BombermanGame extends Application {
 
 
     public static void main(String[] args) {
-        SoundPlayer.playSound("/soundtrack");
+        //SoundPlayer.playSound("/soundtrack");
         Application.launch(BombermanGame.class);
     }
 
