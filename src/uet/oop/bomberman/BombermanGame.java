@@ -59,6 +59,7 @@ public class BombermanGame extends Application {
             @Override
             public void handle(long l) {
                 GameMap.render(gc,canvas);
+                if (!GameMap.bomberMan.isExisting()) this.stop();
             }
         };
         timer.start();
