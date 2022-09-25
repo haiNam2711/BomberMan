@@ -21,8 +21,6 @@ public class Flame extends Entity {
     @Override
     public void update() {
         for (Brick brick: GameMap.bricks) {
-            System.out.println(brick.getX()/ Sprite.SCALED_SIZE);
-            System.out.println(brick.getY()/Sprite.SCALED_SIZE);
             if (this.checkCollide(brick)) {
                 brick.setExisting(false);
                 this.setExisting(false);
