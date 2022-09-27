@@ -46,12 +46,13 @@ public class GameMap {
         walls.forEach(g -> g.render(gc));
         grasses.forEach(g -> g.render(gc));
         portals.forEach(g -> g.render(gc));
-        bricks.forEach(g -> g.render(gc));
-        bombs.forEach(g -> g.render(gc));
-        enemies.forEach(g -> g.render(gc));
         for (Bomb bomb : bombs) {
             bomb.getFlames().forEach(g -> g.render(gc));
         }
+        bricks.forEach(g -> g.render(gc));
+        bombs.forEach(g -> g.render(gc));
+        enemies.forEach(g -> g.render(gc));
+
         bomberMan.render(gc);
 
         //updating

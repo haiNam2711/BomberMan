@@ -39,6 +39,10 @@ public class Bomber extends Entity {
     public Bomber() {
     }
 
+    public int getMoveLength() {
+        return moveLength;
+    }
+
     @Override
     public void update() {
         if (direction == 4) {
@@ -122,13 +126,49 @@ public class Bomber extends Entity {
             Timer timer2 = new Timer();
             timer2.schedule(timerTask2,3500L);
         }
-        //System.out.println(GameMap.bombs.size());
+    }
+
+    public boolean checkMoveBomb() {
+        switch (direction) {
+            //        changeX = {0, 0, 1, -1};     D-U-R-L
+            //        changeY = {1, -1, 0, 0};     0-1-2-3
+            case 0: {
+                for (Bomb bomb : GameMap.bombs) {
+                    if (bomb.getY() - this.y == Sprite.SCALED_SIZE - moveLength) {
+                        return false;
+                    }
+                }
+                break;
+            }
+            case 1: {
+                for (Bomb bomb : GameMap.bombs) {
+                    if (this.y - bomb.getY() == Sprite.SCALED_SIZE - moveLength) {
+                        return false;
+                    }
+                }
+                break;
+            }
+            case 2: {
+                for (Bomb bomb : GameMap.bombs) {
+                    if (bomb.getX() - this.x == Sprite.SCALED_SIZE - moveLength) {
+                        return false;
+                    }
+                }
+                break;
+            }
+            default: {
+                for (Bomb bomb : GameMap.bombs) {
+                    if (this.x - bomb.getX() == Sprite.SCALED_SIZE - moveLength) {
+                        return false;
+                    }
+                }
+                break;
+            }
+        }
+        return true;
     }
 
     public boolean checkValidMove() {
-
-//        System.out.println(x);
-//        System.out.println(y);
         for (Brick brick : GameMap.bricks) {
             if (this.checkCollide(brick)) {
                 return false;
@@ -144,7 +184,7 @@ public class Bomber extends Entity {
                 return false;
             }
         }
-        return true;
+        return checkMoveBomb();
     }
 
     public void roundAxisMove(int direction) {
