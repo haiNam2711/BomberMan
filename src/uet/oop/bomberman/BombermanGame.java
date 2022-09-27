@@ -7,11 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.enemy.Balloon;
-import uet.oop.bomberman.entities.enemy.Enemy;
 import uet.oop.bomberman.entities.enemy.Oneal;
 import uet.oop.bomberman.entities.unmovableobject.Brick;
 import uet.oop.bomberman.entities.unmovableobject.Grass;
@@ -19,22 +17,26 @@ import uet.oop.bomberman.entities.unmovableobject.Portal;
 import uet.oop.bomberman.entities.unmovableobject.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.keyboarddetect.KeyboardDetect;
+import uet.oop.bomberman.map.GameMap;
+import uet.oop.bomberman.map.MapReader;
 import uet.oop.bomberman.soundplayer.SoundPlayer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 public class BombermanGame extends Application {
 
-    public static final int WIDTH = 31;
-    public static final int HEIGHT = 13;
+    public static int WIDTH = GameMap.WIDTH;
+    public static int HEIGHT = GameMap.HEIGHT;
 
     private GraphicsContext gc;
     private Canvas canvas;
 
 
-    public static void main(String[] args) {
-        //SoundPlayer.playSound("/soundtrack");
+    public static void main(String[] args) throws IOException {
+        MapReader.reader(1);
+        WIDTH = GameMap.WIDTH;
+        HEIGHT = GameMap.HEIGHT;
+        SoundPlayer.playSound("/soundtrack");
         Application.launch(BombermanGame.class);
     }
 
@@ -58,7 +60,7 @@ public class BombermanGame extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                GameMap.render(gc,canvas);
+                GameMap.render(gc, canvas);
                 if (!GameMap.bomberMan.isExisting()) this.stop();
             }
         };
@@ -68,7 +70,7 @@ public class BombermanGame extends Application {
         Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         GameMap.bomberMan = bomberman;
         KeyboardDetect.keyboardPressed(bomberman, scene);
-        
+
     }
 
     public void createMap() {
@@ -87,33 +89,19 @@ public class BombermanGame extends Application {
                     GameMap.portals.add((Portal) object);
                 } else if (mapLv1[i].charAt(j) == '*') {
                     object = new Brick(j, i, Sprite.brick.getFxImage());
-                    GameMap.bricks.add((Brick)object);
+                    GameMap.bricks.add((Brick) object);
                 } else if (mapLv1[i].charAt(j) == '1') {
                     object = new Balloon(j, i, Sprite.balloom_dead.getFxImage());
                     GameMap.enemies.add((Balloon) object);
                 } else if (mapLv1[i].charAt(j) == '2') {
                     Oneal oneal = new Oneal(j, i, Sprite.oneal_dead.getFxImage());
-                    GameMap.enemies.add((Oneal)oneal);
+                    GameMap.enemies.add((Oneal) oneal);
                 }
-                if (mapLv1[i].charAt(j) != '#'){
+                if (mapLv1[i].charAt(j) != '#') {
                     GameMap.grasses.add(new Grass(j, i, Sprite.grass.getFxImage()));
                 }
             }
         }
     }
-
-//    public void update() {
-//        entities.forEach(Entity::update);
-//    }
-
-//    public void render() {
-//        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-//        stillObjects.forEach(g -> g.render(gc));
-//        entities.forEach(g -> g.render(gc));
-//    }
-
-//    public List<Entity> getEntities() {
-//        return entities;
-//    }
 
 }
