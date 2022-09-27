@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.bomb;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.GameMap;
+import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.enemy.Enemy;
 import uet.oop.bomberman.entities.unmovableobject.Brick;
@@ -18,12 +19,19 @@ public class Flame extends Entity {
 //        System.out.println(yUnit);
     }
 
+    public boolean checkCollideBomber(Bomber b) {
+        if (Math.abs(b.getX()-x) + Math.abs(b.getY()-y) <= b.getMoveLength()) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void update() {
         for (Brick brick: GameMap.bricks) {
             if (this.checkCollide(brick)) {
-                brick.setExisting(false);
                 this.setExisting(false);
+                brick.setExisting(false);
             }
         }
         for (Enemy enemy: GameMap.enemies) {
@@ -32,7 +40,7 @@ public class Flame extends Entity {
                 enemy.setExisting(false);
             }
         }
-        if (this.checkCollide(GameMap.bomberMan)) {
+        if (!this.checkCollideBomber(GameMap.bomberMan)) {
             GameMap.bomberMan.setExisting(false);
         }
     }
