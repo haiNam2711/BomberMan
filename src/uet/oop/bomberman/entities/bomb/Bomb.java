@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Bomb extends Entity {
     private boolean explored = false;
-    private int flameLength = 2;
+    private int flameLength = 1;
     private List<Flame> flames = new ArrayList<Flame>();
 
 

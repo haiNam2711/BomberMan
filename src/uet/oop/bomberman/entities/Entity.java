@@ -1,16 +1,12 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import uet.oop.bomberman.GameMap;
+import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.enemy.Enemy;
 import uet.oop.bomberman.entities.unmovableobject.Brick;
 import uet.oop.bomberman.entities.unmovableobject.Wall;
 import uet.oop.bomberman.graphics.Sprite;
-import javafx.geometry.Rectangle2D;
 
 
 import java.awt.*;

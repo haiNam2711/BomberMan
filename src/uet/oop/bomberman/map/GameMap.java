@@ -1,4 +1,4 @@
-package uet.oop.bomberman;
+package uet.oop.bomberman.map;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,25 +12,15 @@ import uet.oop.bomberman.entities.unmovableobject.Grass;
 import uet.oop.bomberman.entities.unmovableobject.Portal;
 import uet.oop.bomberman.entities.unmovableobject.Wall;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameMap {
-    public static final String[] mapLv1 = {
-            "###############################",
-            "#p     ** *  1 * 2 *  * * *   #",
-            "# # # #*# # #*#*# # # #*#*#*# #",
-            "#  x*     ***  *  1   * 2 * * #",
-            "# # # # # #*# # #*#*# # # # #*#",
-            "#f         x **  *  *   1     #",
-            "# # # # # # # # # #*# #*# # # #",
-            "#*  *      *  *      *        #",
-            "# # # # #*# # # #*#*# # # # # #",
-            "#*    **  *       *           #",
-            "# #*# # # # # # #*# # # # # # #",
-            "#           *   *  *          #",
-            "###############################"
-    };
+    public static int WIDTH;
+    public static int HEIGHT;
+    public static String[] mapLv1 = new String[100];
+
 
     public static List<Brick> bricks = new ArrayList<>();
     public static List<Portal> portals = new ArrayList<>();
@@ -38,7 +28,7 @@ public class GameMap {
     public static List<Grass> grasses = new ArrayList<>();
     public static List<Enemy> enemies = new ArrayList<>();
     public static List<Bomb> bombs = new ArrayList<>();
-    public static Bomber bomberMan ;//= new Bomber();
+    public static Bomber bomberMan;//= new Bomber();
 
     public static void render(GraphicsContext gc, Canvas canvas) {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());

@@ -1,26 +1,20 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.GameMap;
+import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.enemy.Enemy;
 import uet.oop.bomberman.entities.unmovableobject.Brick;
 import uet.oop.bomberman.entities.unmovableobject.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Bomber extends Entity {
 
     private final int moveLength = Sprite.SCALED_SIZE / 4;
-    private final Image[] directionImages = {Sprite.player_down.getFxImage(),Sprite.player_up.getFxImage(),Sprite.player_right.getFxImage(),Sprite.player_left.getFxImage()};
+    private final Image[] directionImages = {Sprite.player_down.getFxImage(), Sprite.player_up.getFxImage(), Sprite.player_right.getFxImage(), Sprite.player_left.getFxImage()};
     private int direction = -1;
     private int bombsNumLimit = 2;
 
@@ -89,9 +83,9 @@ public class Bomber extends Entity {
     public void layBomb() {
         int nowX = x;
         int nowY = y;
-        nowX = (nowX % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE/2) ? (nowX/Sprite.SCALED_SIZE)*Sprite.SCALED_SIZE : (nowX/Sprite.SCALED_SIZE+1)*Sprite.SCALED_SIZE;
-        nowY = (nowY % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE/2) ? (nowY/Sprite.SCALED_SIZE)*Sprite.SCALED_SIZE : (nowY/Sprite.SCALED_SIZE+1)*Sprite.SCALED_SIZE;
-        Bomb newBomb = new Bomb(nowX/Sprite.SCALED_SIZE,nowY/Sprite.SCALED_SIZE,Sprite.bomb.getFxImage());
+        nowX = (nowX % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 2) ? (nowX / Sprite.SCALED_SIZE) * Sprite.SCALED_SIZE : (nowX / Sprite.SCALED_SIZE + 1) * Sprite.SCALED_SIZE;
+        nowY = (nowY % Sprite.SCALED_SIZE <= Sprite.SCALED_SIZE / 2) ? (nowY / Sprite.SCALED_SIZE) * Sprite.SCALED_SIZE : (nowY / Sprite.SCALED_SIZE + 1) * Sprite.SCALED_SIZE;
+        Bomb newBomb = new Bomb(nowX / Sprite.SCALED_SIZE, nowY / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
         boolean isAlreadyExist = false;
         for (Bomb bomb : GameMap.bombs) {
             if (newBomb.checkCollide(bomb)) {
@@ -111,7 +105,7 @@ public class Bomber extends Entity {
                 }
             };
             Timer timer1 = new Timer();
-            timer1.schedule(timerTask1,3000L);
+            timer1.schedule(timerTask1, 3000L);
 
             //Deleting the Broken Obtacles
             TimerTask timerTask2 = new TimerTask() {
@@ -124,7 +118,7 @@ public class Bomber extends Entity {
                 }
             };
             Timer timer2 = new Timer();
-            timer2.schedule(timerTask2,3500L);
+            timer2.schedule(timerTask2, 3500L);
         }
     }
 
