@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.enemy.Enemy;
 import uet.oop.bomberman.entities.unmovableobject.Brick;
@@ -96,6 +97,13 @@ public abstract class Entity {
     public boolean checkCollideEnemy() {
         for (Enemy enemy : GameMap.enemies) {
             if (this.checkCollide(enemy)) return true;
+        }
+        return false;
+    }
+
+    public boolean checkCollideBomb() {
+        for (Bomb bomb : GameMap.bombs) {
+            if (this.checkCollide(bomb)) return true;
         }
         return false;
     }

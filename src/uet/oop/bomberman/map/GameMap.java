@@ -47,6 +47,7 @@ public class GameMap {
 
         //updating
         bomberMan.update();
+        enemies.forEach(Enemy::update);
         bombs.forEach(Bomb::update);
         for (Bomb bomb : bombs) {
             bomb.getFlames().forEach(Flame::update);
