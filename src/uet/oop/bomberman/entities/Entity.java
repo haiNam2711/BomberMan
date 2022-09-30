@@ -41,6 +41,10 @@ public abstract class Entity {
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.img = img;
     }
+    public Entity(int scaleX, int scaleY) {
+        this.x = scaleX;
+        this.y = scaleY;
+    }
 
     public Entity() {
     }

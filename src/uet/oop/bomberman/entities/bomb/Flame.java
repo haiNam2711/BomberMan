@@ -13,15 +13,13 @@ public class Flame extends Entity {
 
     public Flame(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-//        System.out.println(xUnit);
-//        System.out.println(yUnit);
     }
 
     public boolean checkCollideBomber(Bomber b) {
         if (Math.abs(b.getX()-x) + Math.abs(b.getY()-y) <= b.getMoveLength()) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -38,7 +36,7 @@ public class Flame extends Entity {
                 enemy.setExisting(false);
             }
         }
-        if (!this.checkCollideBomber(GameMap.bomberMan)) {
+        if (this.checkCollideBomber(GameMap.bomberMan)) {
             GameMap.bomberMan.setExisting(false);
         }
     }

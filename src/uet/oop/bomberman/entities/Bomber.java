@@ -163,21 +163,8 @@ public class Bomber extends Entity {
     }
 
     public boolean checkValidMove() {
-        for (Brick brick : GameMap.bricks) {
-            if (this.checkCollide(brick)) {
-                return false;
-            }
-        }
-        for (Wall wall : GameMap.walls) {
-            if (this.checkCollide(wall)) {
-                return false;
-            }
-        }
-        for (Enemy enemy : GameMap.enemies) {
-            if (this.checkCollide(enemy)) {
-                return false;
-            }
-        }
+        if (checkCollideBrick()) return false;
+        if (checkCollideWall()) return false;
         return checkMoveBomb();
     }
 
