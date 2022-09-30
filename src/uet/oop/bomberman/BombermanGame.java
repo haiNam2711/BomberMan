@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import uet.oop.bomberman.algorithm.Bfs;
+import uet.oop.bomberman.algorithm.BfsNode;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.enemy.Balloon;
@@ -36,8 +38,13 @@ public class BombermanGame extends Application {
         MapReader.reader(1);
         WIDTH = GameMap.WIDTH;
         HEIGHT = GameMap.HEIGHT;
-        SoundPlayer.playSound("/soundtrack");
-        Application.launch(BombermanGame.class);
+//        SoundPlayer.playSound("/soundtrack");
+//        Application.launch(BombermanGame.class);
+
+        GameMap.createMap();
+        Bfs.loang(32,32,96,96);
+        System.out.println(Bfs.getResX());
+        System.out.println(Bfs.getResY());
     }
 
     @Override
@@ -61,47 +68,18 @@ public class BombermanGame extends Application {
             @Override
             public void handle(long l) {
                 GameMap.render(gc, canvas);
-                if (!GameMap.bomberMan.isExisting()) this.stop();
+                if (!GameMap.bomberMan.isExisting()) {
+                    this.stop();
+                }
             }
         };
         timer.start();
-        createMap();
+        GameMap.createMap();
 
         Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         GameMap.bomberMan = bomberman;
         KeyboardDetect.keyboardPressed(bomberman, scene);
 
-    }
-
-    public void createMap() {
-
-        String[] mapLv1 = GameMap.mapLv1;
-
-
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                Entity object;
-                if (mapLv1[i].charAt(j) == '#') {
-                    object = new Wall(j, i, Sprite.wall.getFxImage());
-                    GameMap.walls.add((Wall) object);
-                } else if (mapLv1[i].charAt(j) == 'x') {
-                    object = new Portal(j, i, Sprite.portal.getFxImage());
-                    GameMap.portals.add((Portal) object);
-                } else if (mapLv1[i].charAt(j) == '*') {
-                    object = new Brick(j, i, Sprite.brick.getFxImage());
-                    GameMap.bricks.add((Brick) object);
-                } else if (mapLv1[i].charAt(j) == '1') {
-                    object = new Balloon(j, i, Sprite.balloom_dead.getFxImage());
-                    GameMap.enemies.add((Balloon) object);
-                } else if (mapLv1[i].charAt(j) == '2') {
-                    Oneal oneal = new Oneal(j, i, Sprite.oneal_dead.getFxImage());
-                    GameMap.enemies.add((Oneal) oneal);
-                }
-                if (mapLv1[i].charAt(j) != '#') {
-                    GameMap.grasses.add(new Grass(j, i, Sprite.grass.getFxImage()));
-                }
-            }
-        }
     }
 
 }
