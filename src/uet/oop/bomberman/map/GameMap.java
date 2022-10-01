@@ -9,13 +9,12 @@ import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.enemy.Balloon;
 import uet.oop.bomberman.entities.enemy.Enemy;
 import uet.oop.bomberman.entities.enemy.Oneal;
-import uet.oop.bomberman.entities.unmovableobject.Brick;
-import uet.oop.bomberman.entities.unmovableobject.Grass;
-import uet.oop.bomberman.entities.unmovableobject.Portal;
-import uet.oop.bomberman.entities.unmovableobject.Wall;
+import uet.oop.bomberman.entities.maptexture.Brick;
+import uet.oop.bomberman.entities.maptexture.Grass;
+import uet.oop.bomberman.entities.maptexture.Portal;
+import uet.oop.bomberman.entities.maptexture.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +34,11 @@ public class GameMap {
 
     public static void render(GraphicsContext gc, Canvas canvas) {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        //clear broken items
+        bricks.removeIf(g -> !g.isExisting());
+        enemies.removeIf(g -> !g.isExisting());
+
         //rendering
         walls.forEach(g -> g.render(gc));
         grasses.forEach(g -> g.render(gc));
@@ -45,7 +49,6 @@ public class GameMap {
         bricks.forEach(g -> g.render(gc));
         bombs.forEach(g -> g.render(gc));
         enemies.forEach(g -> g.render(gc));
-
         bomberMan.render(gc);
 
         //updating
@@ -53,6 +56,7 @@ public class GameMap {
         enemies.forEach(Enemy::update);
         bombs.forEach(Bomb::update);
         for (Bomb bomb : bombs) {
+            if (!bomb.isExisting()) continue;
             bomb.getFlames().forEach(Flame::update);
         }
     }

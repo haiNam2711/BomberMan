@@ -11,6 +11,8 @@ public abstract class Enemy extends Entity {
 
     protected final int moveLength = Sprite.SCALED_SIZE /32;
     protected int direction = -1;
+    protected Sprite[] spritesSet1;
+    protected Sprite[] spritesSet2;
 
     public Enemy(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
@@ -59,12 +61,12 @@ public abstract class Enemy extends Entity {
                 //        changeY = {1, -1, 0, 0};     0-1-2-3
                 case 0:
                 case 2: {
-                    setImg(Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, this.getX(), 60).getFxImage());
+                    setImg(Sprite.movingSprite(spritesSet1[0],spritesSet1[1],spritesSet1[2], this.getX(), 60).getFxImage());
                     break;
                 }
                 case 1:
                 case 3: {
-                    setImg(Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, this.getX(), 60).getFxImage());
+                    setImg(Sprite.movingSprite(spritesSet2[0],spritesSet2[1],spritesSet2[2], this.getX(), 60).getFxImage());
                     break;
                 }
             }

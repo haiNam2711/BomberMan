@@ -19,7 +19,9 @@ public class Bomb extends Entity {
         super(xUnit, yUnit, img);
     }
 
-
+    public Bomb(int xUnit, int yUnit) {
+        super(xUnit,yUnit);
+    }
     public boolean isExplored() {
         return explored;
     }
@@ -31,7 +33,7 @@ public class Bomb extends Entity {
 
     //        changeX = {0, 0, 1, -1};     D-U-R-L
     //        changeY = {1, -1, 0, 0};     0-1-2-3
-    public void addFlameFourDiretion() {
+    public void addFlameFourDirection() {
         Image imageHorizontal = Sprite.movingSprite(Sprite.explosion_horizontal,Sprite.explosion_horizontal1,Sprite.explosion_horizontal2,60,60).getFxImage();
         Image imageVertical = Sprite.movingSprite(Sprite.explosion_vertical,Sprite.explosion_vertical1,Sprite.explosion_vertical2,60,60).getFxImage();
         flames.add(new Flame(x/Sprite.SCALED_SIZE,y/Sprite.SCALED_SIZE,Sprite.explosion_vertical1.getFxImage()));
@@ -58,6 +60,7 @@ public class Bomb extends Entity {
 
     @Override
     public void update() {
+        if (!existing) return;
         if (animatingVariable == 60) {
             animatingVariable = 1;
         } else {

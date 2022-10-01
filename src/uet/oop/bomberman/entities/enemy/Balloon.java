@@ -10,11 +10,16 @@ public class Balloon extends Enemy {
 
     public Balloon(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
+        this.spritesSet1 = new Sprite[]{Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3};
+        this.spritesSet2 = new Sprite[]{Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3};
     }
 
 
     @Override
     public void update() {
+        if (!isExisting()) {
+            return;
+        }
         randomMove();
         checkCollideBomber(GameMap.bomberMan);
     }
