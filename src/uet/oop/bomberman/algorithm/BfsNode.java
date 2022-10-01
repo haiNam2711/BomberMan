@@ -4,6 +4,9 @@ public class BfsNode {
     private int x;
     private int y;
 
+    public BfsNode() {
+    }
+
     public BfsNode(int x, int y) {
         this.x = x;
         this.y = y;

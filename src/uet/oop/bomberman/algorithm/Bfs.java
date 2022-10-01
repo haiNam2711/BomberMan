@@ -8,31 +8,22 @@ import uet.oop.bomberman.map.GameMap;
 import java.util.Queue;
 
 public class Bfs {
-    private static int[][] mark = new int[GameMap.WIDTH * Sprite.SCALED_SIZE][GameMap.HEIGHT * Sprite.SCALED_SIZE];
+    private int[][] mark = new int[GameMap.WIDTH * Sprite.SCALED_SIZE][GameMap.HEIGHT * Sprite.SCALED_SIZE];
     private static int[] changeX = {0, 0, 1, -1};
     private static int[] changeY = {1, -1, 0, 0};
 
-    private static int resX = -1;
-    private static int resY = -1;
 
-    public static int getResX() {
-        return resX;
-    }
-
-    public static int getResY() {
-        return resY;
-    }
-
-    public static void loang(int startX, int startY, int endX, int endY) {
+    public BfsNode loang(int startX, int startY, int endX, int endY) {
         for (int i = 0; i < GameMap.WIDTH * Sprite.SCALED_SIZE; i++) {
             for (int j = 0; j < GameMap.HEIGHT * Sprite.SCALED_SIZE; j++) {
-                mark[i][j] = -1;
+                mark[i][j] = 0;
             }
         }
+        BfsNode res = new BfsNode();
         BfsQueue bfsQueue = new BfsQueue(GameMap.WIDTH * GameMap.HEIGHT * Sprite.SCALED_SIZE * Sprite.SCALED_SIZE + 99);
         bfsQueue.enqueue(new BfsNode(startX, startY));
         mark[startX][startY] = 1;
-        while (!bfsQueue.isEmpty() && mark[endX][endY] == -1) {
+        while (!bfsQueue.isEmpty() && mark[endX][endY] == 0) {
             BfsNode bn = bfsQueue.dequeue();
             //        changeX = {0, 0, 1, -1};     D-U-R-L
             //        changeY = {1, -1, 0, 0};     0-1-2-3
@@ -40,15 +31,15 @@ public class Bfs {
                 Oneal oneal = new Oneal(bn.getX()+changeX[dir],bn.getY()+changeY[dir]);
 
                 if (oneal.checkValidMove() && oneal.getX() == endX && oneal.getY() == endY) {
-                    resX = bn.getX();
-                    resY = bn.getY();
-                    return;
+                    res.setX(bn.getX());
+                    res.setY(bn.getY());
+                    return res;
                 }
-                if (oneal.checkValidMove() && mark[oneal.getX()][oneal.getY()] == -1) {
-                    bfsQueue.enqueue(new BfsNode(oneal.getX(),oneal.getY()));
-                    mark[oneal.getX()][oneal.getY()] = 1;
-                }
+                if (!oneal.checkValidMove() || (mark[oneal.getX()][oneal.getY()] != 0)) continue;
+                bfsQueue.enqueue(new BfsNode(oneal.getX(),oneal.getY()));
+                mark[oneal.getX()][oneal.getY()] = 1;
             }
         }
+        return new BfsNode(-1,-1);
     }
 }

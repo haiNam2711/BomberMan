@@ -5,7 +5,7 @@ import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.enemy.Enemy;
-import uet.oop.bomberman.entities.unmovableobject.Brick;
+import uet.oop.bomberman.entities.maptexture.Brick;
 
 public class Flame extends Entity {
     public Flame() {

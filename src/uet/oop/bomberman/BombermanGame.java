@@ -8,15 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import uet.oop.bomberman.algorithm.Bfs;
-import uet.oop.bomberman.algorithm.BfsNode;
 import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.enemy.Balloon;
-import uet.oop.bomberman.entities.enemy.Oneal;
-import uet.oop.bomberman.entities.unmovableobject.Brick;
-import uet.oop.bomberman.entities.unmovableobject.Grass;
-import uet.oop.bomberman.entities.unmovableobject.Portal;
-import uet.oop.bomberman.entities.unmovableobject.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.keyboarddetect.KeyboardDetect;
 import uet.oop.bomberman.map.GameMap;
@@ -29,7 +21,6 @@ public class BombermanGame extends Application {
 
     public static int WIDTH = GameMap.WIDTH;
     public static int HEIGHT = GameMap.HEIGHT;
-
     private GraphicsContext gc;
     private Canvas canvas;
 
@@ -38,13 +29,14 @@ public class BombermanGame extends Application {
         MapReader.reader(1);
         WIDTH = GameMap.WIDTH;
         HEIGHT = GameMap.HEIGHT;
-//        SoundPlayer.playSound("/soundtrack");
-//        Application.launch(BombermanGame.class);
+        SoundPlayer.playSound("/soundt");
+        Application.launch(BombermanGame.class);
 
-        GameMap.createMap();
-        Bfs.loang(32,32,96,96);
-        System.out.println(Bfs.getResX());
-        System.out.println(Bfs.getResY());
+//        GameMap.createMap();
+//        Bfs bfs = new Bfs();
+//
+//        System.out.println(bfs.loang(32,32,288,224).getX());
+//        System.out.println(bfs.loang(32,32,288,224).getY());
     }
 
     @Override

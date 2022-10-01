@@ -3,9 +3,6 @@ package uet.oop.bomberman.entities;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.bomb.Bomb;
-import uet.oop.bomberman.entities.enemy.Enemy;
-import uet.oop.bomberman.entities.unmovableobject.Brick;
-import uet.oop.bomberman.entities.unmovableobject.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Timer;
@@ -93,7 +90,7 @@ public class Bomber extends Entity {
                 break;
             }
         }
-        if (isAlreadyExist == false && GameMap.bombs.size() < bombsNumLimit) {
+        if (isAlreadyExist == false && GameMap.bombs.size() < bombsNumLimit && !newBomb.checkCollideEnemy()) {
             GameMap.bombs.add(newBomb);
 
             //Activate Exploring the Bomb
@@ -101,20 +98,18 @@ public class Bomber extends Entity {
                 @Override
                 public void run() {
                     newBomb.setExplored(true);
-                    newBomb.addFlameFourDiretion();
+                    newBomb.addFlameFourDirection();
                 }
             };
             Timer timer1 = new Timer();
             timer1.schedule(timerTask1, 3000L);
 
-            //Deleting the Broken Obtacles
+            //Deleting the Broken Bombs
             TimerTask timerTask2 = new TimerTask() {
                 @Override
                 public void run() {
-                    newBomb.isExisting = false;
-                    GameMap.bricks.removeIf(g -> !g.isExisting);
-                    GameMap.enemies.removeIf(g -> !g.isExisting);
-                    GameMap.bombs.removeIf(g -> !g.isExisting);
+                    newBomb.existing = false;
+                    GameMap.bombs.removeIf(g -> !g.existing);
                 }
             };
             Timer timer2 = new Timer();

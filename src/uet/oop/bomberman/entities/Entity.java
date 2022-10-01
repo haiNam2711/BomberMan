@@ -5,8 +5,8 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.enemy.Enemy;
-import uet.oop.bomberman.entities.unmovableobject.Brick;
-import uet.oop.bomberman.entities.unmovableobject.Wall;
+import uet.oop.bomberman.entities.maptexture.Brick;
+import uet.oop.bomberman.entities.maptexture.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 
@@ -22,17 +22,17 @@ public abstract class Entity {
     protected int y;
 
     protected Image img;
-    protected boolean isExisting = true;
+    protected boolean existing = true;
 
     protected final int[] changeX = {0, 0, 1, -1};
     protected final int[] changeY = {1, -1, 0, 0};
 
     public boolean isExisting() {
-        return isExisting;
+        return existing;
     }
 
     public void setExisting(boolean existing) {
-        isExisting = existing;
+        this.existing = existing;
     }
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
@@ -94,6 +94,7 @@ public abstract class Entity {
     }
     public boolean checkCollideBrick() {
         for (Brick brick : GameMap.bricks) {
+            if (!brick.existing) continue;
             if (this.checkCollide(brick)) return true;
         }
         return false;
@@ -107,7 +108,8 @@ public abstract class Entity {
 
     public boolean checkCollideBomb() {
         for (Bomb bomb : GameMap.bombs) {
-            if (this.checkCollide(bomb)) return true;
+            Bomb bbomb = new Bomb(bomb.getX(),bomb.getY());
+            if (this.checkCollide(bbomb)) return true;
         }
         return false;
     }
