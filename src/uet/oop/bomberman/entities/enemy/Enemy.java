@@ -73,11 +73,11 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public void checkCollideBomber(Bomber b) {
-        if (Math.abs(b.getX()-x) + Math.abs(b.getY()-y) <= b.getMoveLength()) {
-            b.setExisting(false);
-        }
-    }
+//    public void checkCollideBomber(Bomber b) {
+//        if (Math.abs(b.getX()-x) + Math.abs(b.getY()-y) <= b.getMoveLength()) {
+//            b.setExisting(false);
+//        }
+//    }
 
     @Override
     public abstract void update() ;

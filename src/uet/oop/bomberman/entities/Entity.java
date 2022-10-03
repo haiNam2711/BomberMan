@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import uet.oop.bomberman.CheckCollideBomber;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.enemy.Enemy;
@@ -11,10 +12,11 @@ import uet.oop.bomberman.graphics.Sprite;
 
 
 import java.awt.*;
+import java.util.Objects;
 
 import static java.lang.Math.abs;
 
-public abstract class Entity {
+public abstract class Entity implements CheckCollideBomber {
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
 
@@ -106,8 +108,10 @@ public abstract class Entity {
         return false;
     }
 
-    public boolean checkCollideBomb() {
+    public boolean checkCollideBomb() throws NullPointerException{
         for (Bomb bomb : GameMap.bombs) {
+            if (Objects.isNull(bomb)) continue;
+            if (!bomb.isExisting()) return false;
             Bomb bbomb = new Bomb(bomb.getX(),bomb.getY());
             if (this.checkCollide(bbomb)) return true;
         }

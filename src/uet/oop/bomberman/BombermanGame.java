@@ -63,6 +63,10 @@ public class BombermanGame extends Application {
                 if (!GameMap.bomberMan.isExisting()) {
                     this.stop();
                 }
+                if (GameMap.toNextLevel) {
+                    this.stop();
+                    System.out.println(1);
+                }
             }
         };
         timer.start();

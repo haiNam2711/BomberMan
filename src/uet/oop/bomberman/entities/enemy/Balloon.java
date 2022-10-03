@@ -21,7 +21,9 @@ public class Balloon extends Enemy {
             return;
         }
         randomMove();
-        checkCollideBomber(GameMap.bomberMan);
+        if (checkCollideBomber(this,GameMap.bomberMan)) {
+            GameMap.bomberMan.setExisting(false);
+        }
     }
 
 }
