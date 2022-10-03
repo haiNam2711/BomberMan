@@ -21,6 +21,7 @@ import java.util.List;
 public class GameMap {
     public static int WIDTH;
     public static int HEIGHT;
+    public static boolean toNextLevel = false;
     public static String[] mapLv1 = new String[100];
 
 
@@ -35,29 +36,34 @@ public class GameMap {
     public static void render(GraphicsContext gc, Canvas canvas) {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        //clear broken items
-        bricks.removeIf(g -> !g.isExisting());
-        enemies.removeIf(g -> !g.isExisting());
+        try {
+            //clear broken items
+            bricks.removeIf(g -> !g.isExisting());
+            enemies.removeIf(g -> !g.isExisting());
 
-        //rendering
-        walls.forEach(g -> g.render(gc));
-        grasses.forEach(g -> g.render(gc));
-        portals.forEach(g -> g.render(gc));
-        for (Bomb bomb : bombs) {
-            bomb.getFlames().forEach(g -> g.render(gc));
-        }
-        bricks.forEach(g -> g.render(gc));
-        bombs.forEach(g -> g.render(gc));
-        enemies.forEach(g -> g.render(gc));
-        bomberMan.render(gc);
+            //rendering
+            walls.forEach(g -> g.render(gc));
+            grasses.forEach(g -> g.render(gc));
+            portals.forEach(g -> g.render(gc));
+            for (Bomb bomb : bombs) {
+                bomb.getFlames().forEach(g -> g.render(gc));
+            }
+            bricks.forEach(g -> g.render(gc));
+            bombs.forEach(g -> g.render(gc));
+            enemies.forEach(g -> g.render(gc));
+            bomberMan.render(gc);
 
-        //updating
-        bomberMan.update();
-        enemies.forEach(Enemy::update);
-        bombs.forEach(Bomb::update);
-        for (Bomb bomb : bombs) {
-            if (!bomb.isExisting()) continue;
-            bomb.getFlames().forEach(Flame::update);
+            //updating
+            portals.forEach(Portal::update);
+            bomberMan.update();
+            enemies.forEach(Enemy::update);
+            bombs.forEach(Bomb::update);
+            for (Bomb bomb : bombs) {
+                if (!bomb.isExisting()) continue;
+                bomb.getFlames().forEach(Flame::update);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 

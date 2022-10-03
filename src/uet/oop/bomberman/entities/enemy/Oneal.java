@@ -20,8 +20,9 @@ public class Oneal extends Enemy {
 
     @Override
     public void update() {
-
-        checkCollideBomber(GameMap.bomberMan);
+        if(checkCollideBomber(this,GameMap.bomberMan)){
+            GameMap.bomberMan.setExisting(false);
+        }
         if (!existing) return;
         //randomMove();
         Bomber bomber = GameMap.bomberMan;
