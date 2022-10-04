@@ -10,10 +10,10 @@ import java.util.TimerTask;
 
 public class Bomber extends Entity {
 
-    private final int moveLength = Sprite.SCALED_SIZE / 4;
+    private int moveLength = Sprite.SCALED_SIZE / 4;
     private final Image[] directionImages = {Sprite.player_down.getFxImage(), Sprite.player_up.getFxImage(), Sprite.player_right.getFxImage(), Sprite.player_left.getFxImage()};
     private int direction = -1;
-    private int bombsNumLimit = 2;
+    private int bombsNumLimit = 1;
 
     public int getDirection() {
         return direction;
@@ -32,6 +32,18 @@ public class Bomber extends Entity {
 
     public int getMoveLength() {
         return moveLength;
+    }
+
+    public void setBombsNumLimit(int bombsNumLimit) {
+        this.bombsNumLimit = bombsNumLimit;
+    }
+
+    public int getBombsNumLimit() {
+        return bombsNumLimit;
+    }
+
+    public void setMoveLength(int moveLength) {
+        this.moveLength = moveLength;
     }
 
     @Override

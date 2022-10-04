@@ -14,6 +14,10 @@ import uet.oop.bomberman.entities.maptexture.Grass;
 import uet.oop.bomberman.entities.maptexture.Portal;
 import uet.oop.bomberman.entities.maptexture.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.item.BombItem;
+import uet.oop.item.FlameItem;
+import uet.oop.item.Item;
+import uet.oop.item.SpeedItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +35,7 @@ public class GameMap {
     public static List<Grass> grasses = new ArrayList<>();
     public static List<Enemy> enemies = new ArrayList<>();
     public static List<Bomb> bombs = new ArrayList<>();
+    public static List<Item> items = new ArrayList<>();
     public static Bomber bomberMan;//= new Bomber();
 
     public static void render(GraphicsContext gc, Canvas canvas) {
@@ -39,7 +44,12 @@ public class GameMap {
         try {
             //clear broken items
             bricks.removeIf(g -> !g.isExisting());
+            items.removeIf(g -> !g.isExisting());
             enemies.removeIf(g -> !g.isExisting());
+            for (Bomb bomb : bombs) {
+                if (!bomb.isExisting()) continue;
+                bomb.getFlames().removeIf(g -> !g.isExisting());
+            }
 
             //rendering
             walls.forEach(g -> g.render(gc));
@@ -48,6 +58,7 @@ public class GameMap {
             for (Bomb bomb : bombs) {
                 bomb.getFlames().forEach(g -> g.render(gc));
             }
+            items.forEach(g -> g.render(gc));
             bricks.forEach(g -> g.render(gc));
             bombs.forEach(g -> g.render(gc));
             enemies.forEach(g -> g.render(gc));
@@ -57,13 +68,14 @@ public class GameMap {
             portals.forEach(Portal::update);
             bomberMan.update();
             enemies.forEach(Enemy::update);
+            items.forEach(Item::update);
             bombs.forEach(Bomb::update);
             for (Bomb bomb : bombs) {
                 if (!bomb.isExisting()) continue;
                 bomb.getFlames().forEach(Flame::update);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 
@@ -91,7 +103,22 @@ public class GameMap {
                     GameMap.enemies.add((Balloon) object);
                 } else if (mapLv1[i].charAt(j) == '2') {
                     Oneal oneal = new Oneal(j, i, Sprite.oneal_dead.getFxImage());
-                    GameMap.enemies.add((Oneal) oneal);
+                    GameMap.enemies.add(oneal);
+                } else if (mapLv1[i].charAt(j) == 's') {
+                    object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
+                    GameMap.items.add((SpeedItem) object);
+                    object = new Brick(j, i, Sprite.brick.getFxImage());
+                    GameMap.bricks.add((Brick) object);
+                } else if (mapLv1[i].charAt(j) == 'b') {
+                    object = new BombItem(j, i, Sprite.powerup_bombs.getFxImage());
+                    GameMap.items.add((BombItem) object);
+                    object = new Brick(j, i, Sprite.brick.getFxImage());
+                    GameMap.bricks.add((Brick) object);
+                } else if (mapLv1[i].charAt(j) == 'f') {
+                    object = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
+                    GameMap.items.add((FlameItem) object);
+                    object = new Brick(j, i, Sprite.brick.getFxImage());
+                    GameMap.bricks.add((Brick) object);
                 }
                 if (mapLv1[i].charAt(j) != '#') {
                     GameMap.grasses.add(new Grass(j, i, Sprite.grass.getFxImage()));
