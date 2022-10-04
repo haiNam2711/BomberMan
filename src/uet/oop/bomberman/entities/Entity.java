@@ -2,7 +2,6 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.CheckCollideBomber;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.enemy.Enemy;
@@ -16,7 +15,7 @@ import java.util.Objects;
 
 import static java.lang.Math.abs;
 
-public abstract class Entity implements CheckCollideBomber {
+public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
 

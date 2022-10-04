@@ -1,13 +1,14 @@
 package uet.oop.bomberman.entities.enemy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.CheckCollideBomber;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Random;
 
-public abstract class Enemy extends Entity {
+public abstract class Enemy extends Entity implements CheckCollideBomber {
 
     protected final int moveLength = Sprite.SCALED_SIZE /32;
     protected int direction = -1;
