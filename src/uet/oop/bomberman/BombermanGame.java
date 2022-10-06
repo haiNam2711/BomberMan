@@ -18,6 +18,7 @@ import java.io.IOException;
 
 public class BombermanGame extends Application {
 
+    private boolean isRunning = true;
     public static int WIDTH = GameMap.WIDTH;
     public static int HEIGHT = GameMap.HEIGHT;
     private GraphicsContext gc;
@@ -31,11 +32,6 @@ public class BombermanGame extends Application {
         SoundPlayer.playSound("/soundt");
         Application.launch(BombermanGame.class);
 
-//        GameMap.createMap();
-//        Bfs bfs = new Bfs();
-//
-//        System.out.println(bfs.loang(32,32,288,224).getX());
-//        System.out.println(bfs.loang(32,32,288,224).getY());
     }
 
     @Override
@@ -56,15 +52,16 @@ public class BombermanGame extends Application {
         stage.show();
 
         AnimationTimer timer = new AnimationTimer() {
+            private long lastFrameTime = 0;
+
             @Override
-            public void handle(long l) {
-                GameMap.render(gc, canvas);
-                if (!GameMap.bomberMan.isExisting()) {
-                    this.stop();
-                }
-                if (GameMap.toNextLevel) {
-                    this.stop();
-                    System.out.println(1);
+            public void handle(long nowTime) {
+                if (nowTime - lastFrameTime >= 28000000) { // 120 fps
+                    run();
+                    if (isRunning == false) {
+                        this.stop();
+                    }
+                    lastFrameTime = nowTime ;
                 }
             }
         };
@@ -75,6 +72,17 @@ public class BombermanGame extends Application {
         GameMap.bomberMan = bomberman;
         KeyboardDetect.keyboardPressed(bomberman, scene);
 
+    }
+
+    public void run() {
+        GameMap.render(gc, canvas);
+        if (!GameMap.bomberMan.isExisting()) {
+            isRunning = false;
+        }
+        if (GameMap.toNextLevel) {
+            isRunning = false;
+            System.out.println(1);
+        }
     }
 
 }
