@@ -16,7 +16,7 @@ public abstract class Item extends Entity implements CheckCollideBomber {
     public void update() {
         if (used) existing = false;
         else {
-            if (checkCollideBomber(this, GameMap.bomberMan)) {
+            if (this.checkCollide(GameMap.bomberMan)) {
                 used = true;
                 buff();
             }

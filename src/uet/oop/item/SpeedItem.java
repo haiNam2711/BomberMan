@@ -14,6 +14,6 @@ public class SpeedItem extends Item{
     @Override
     void buff() {
         Bomber b = GameMap.bomberMan;
-        b.setMoveLength(b.getMoveLength() + Sprite.SCALED_SIZE/4);
+        b.setMoveLength(b.getMoveLength() + 3);
     }
 }

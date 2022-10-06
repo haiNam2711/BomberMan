@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
+import jdk.nashorn.internal.ir.SplitReturn;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
@@ -10,7 +11,8 @@ import java.util.TimerTask;
 
 public class Bomber extends Entity {
 
-    private int moveLength = Sprite.SCALED_SIZE / 4;
+    private int moveLength = 6;
+    private boolean bombCollideFlag = false;
     private final Image[] directionImages = {Sprite.player_down.getFxImage(), Sprite.player_up.getFxImage(), Sprite.player_right.getFxImage(), Sprite.player_left.getFxImage()};
     private int direction = -1;
     private int bombsNumLimit = 1;
@@ -25,6 +27,10 @@ public class Bomber extends Entity {
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
+    }
+
+    public Bomber(int x, int y) {
+        super(x, y);
     }
 
     public Bomber() {
@@ -48,6 +54,7 @@ public class Bomber extends Entity {
 
     @Override
     public void update() {
+        //System.out.println(x);
         if (direction == 4) {
             layBomb();
             direction = -1;
@@ -59,11 +66,14 @@ public class Bomber extends Entity {
         x += changeX[direction] * moveLength;
         y += changeY[direction] * moveLength;
 
-        boolean flag = checkValidMove();
-        if (flag == false) {
+        if (!checkValidMove()) {
             x -= changeX[direction] * moveLength;
             y -= changeY[direction] * moveLength;
-            roundAxisMove(direction);
+            if (!bombCollideFlag) {
+                roundAxisMove(direction);
+            } else {
+                if (x % Sprite.SCALED_SIZE != 0 || y % Sprite.SCALED_SIZE != 0) roundBombMove(direction);
+            }
         } else {
             switch (direction) {
                 //        changeX = {0, 0, 1, -1};     D-U-R-L
@@ -130,12 +140,13 @@ public class Bomber extends Entity {
     }
 
     public boolean checkMoveBomb() {
+        bombCollideFlag = true;
         switch (direction) {
             //        changeX = {0, 0, 1, -1};     D-U-R-L
             //        changeY = {1, -1, 0, 0};     0-1-2-3
             case 0: {
                 for (Bomb bomb : GameMap.bombs) {
-                    if (bomb.getY() - this.y == Sprite.SCALED_SIZE - moveLength) {
+                    if (bomb.getY() - this.y >= Sprite.SCALED_SIZE - moveLength && bomb.getY() - this.y <= Sprite.SCALED_SIZE) {
                         return false;
                     }
                 }
@@ -143,7 +154,7 @@ public class Bomber extends Entity {
             }
             case 1: {
                 for (Bomb bomb : GameMap.bombs) {
-                    if (this.y - bomb.getY() == Sprite.SCALED_SIZE - moveLength) {
+                    if (this.y - bomb.getY() >= Sprite.SCALED_SIZE - moveLength && this.y - bomb.getY() <= Sprite.SCALED_SIZE) {
                         return false;
                     }
                 }
@@ -151,23 +162,25 @@ public class Bomber extends Entity {
             }
             case 2: {
                 for (Bomb bomb : GameMap.bombs) {
-                    if (bomb.getX() - this.x == Sprite.SCALED_SIZE - moveLength) {
+                    if (bomb.getX() - this.x >= Sprite.SCALED_SIZE - moveLength && bomb.getX() - this.x <= Sprite.SCALED_SIZE) {
                         return false;
                     }
                 }
                 break;
             }
-            default: {
+            case 3: {
                 for (Bomb bomb : GameMap.bombs) {
-                    if (this.x - bomb.getX() == Sprite.SCALED_SIZE - moveLength) {
+                    if (this.x - bomb.getX() >= Sprite.SCALED_SIZE - moveLength && this.x - bomb.getX() <= Sprite.SCALED_SIZE) {
                         return false;
                     }
                 }
                 break;
             }
         }
+        bombCollideFlag = false;
         return true;
     }
+
 
     public boolean checkValidMove() {
         if (checkCollideBrick()) return false;
@@ -179,27 +192,91 @@ public class Bomber extends Entity {
 
         //        changeX = {0, 0, 1, -1};     D-U-R-L
         //        changeY = {1, -1, 0, 0};     0-1-2-3
-        Bomber newBomber1 = new Bomber();
-        Bomber newBomber2 = new Bomber();
-        if (Math.abs(changeX[direction]) == 0) {
-            newBomber1.setX(this.x + moveLength);
-            newBomber1.setY(this.y + moveLength * changeY[direction]);
-            newBomber2.setX(this.x - moveLength);
-            newBomber2.setY(this.y + moveLength * changeY[direction]);
-        } else {
-            newBomber1.setY(this.y + moveLength);
-            newBomber1.setX(this.x + moveLength * changeX[direction]);
-            newBomber2.setY(this.y - moveLength);
-            newBomber2.setX(this.x + moveLength * changeX[direction]);
+//        Bomber newBomber1 = new Bomber();
+//        Bomber newBomber2 = new Bomber();
+//        if (Math.abs(changeX[direction]) == 0) {   //  U D
+//            int modX = x % Sprite.SCALED_SIZE;
+//            newBomber1.setX(this.x + moveLength);
+//            newBomber1.setY(this.y + moveLength * changeY[direction]);
+//            newBomber2.setX(this.x - moveLength);
+//            newBomber2.setY(this.y + moveLength * changeY[direction]);
+//        } else {                                   //  R L
+//            newBomber1.setY(this.y + moveLength);
+//            newBomber1.setX(this.x + moveLength * changeX[direction]);
+//            newBomber2.setY(this.y - moveLength);
+//            newBomber2.setX(this.x + moveLength * changeX[direction]);
+//        }
+//        if (newBomber1.checkValidMove()) {
+//            this.x = newBomber1.x;
+//            this.y = newBomber1.y;
+//            setImg(directionImages[direction]);
+//        } else if (newBomber2.checkValidMove()) {
+//            this.x = newBomber2.x;
+//            this.y = newBomber2.y;
+//            setImg(directionImages[direction]);
+//        }
+        //        changeX = {0, 0, 1, -1};     D-U-R-L
+        //        changeY = {1, -1, 0, 0};     0-1-2-3
+        Bomber newBomber1 = new Bomber(x, y);
+        switch (direction) {
+            case 2:
+            case 3: {
+                int modY = newBomber1.y % Sprite.SCALED_SIZE;
+                if (modY <= Sprite.SCALED_SIZE / 3) {
+                    newBomber1.y -= modY;
+                } else if (modY >= Sprite.SCALED_SIZE * 2 / 3) {
+                    newBomber1.y += Sprite.SCALED_SIZE - modY;
+                }
+                newBomber1.x += changeX[direction]*moveLength;
+                break;
+            }
+            case 1:
+            case 0: {
+                int modX = newBomber1.x % Sprite.SCALED_SIZE;
+                if (modX <= Sprite.SCALED_SIZE / 3) {
+                    newBomber1.x -= modX;
+                } else if (modX >= Sprite.SCALED_SIZE * 2 / 3) {
+                    newBomber1.x += Sprite.SCALED_SIZE - modX;
+                }
+                newBomber1.y += changeY[direction]*moveLength;
+                break;
+            }
         }
         if (newBomber1.checkValidMove()) {
-            this.x = newBomber1.x;
-            this.y = newBomber1.y;
-            setImg(directionImages[direction]);
-        } else if (newBomber2.checkValidMove()) {
-            this.x = newBomber2.x;
-            this.y = newBomber2.y;
-            setImg(directionImages[direction]);
+            x = newBomber1.getX();
+            y = newBomber1.getY();
+        }
+    }
+
+    public void roundBombMove(int direction) {
+        //        changeX = {0, 0, 1, -1};     D-U-R-L
+        //        changeY = {1, -1, 0, 0};     0-1-2-3
+        Bomber newBomber1 = new Bomber(x, y);
+        switch (direction) {
+            case 0: {
+                int modY = newBomber1.y % Sprite.SCALED_SIZE;
+                newBomber1.y += Sprite.SCALED_SIZE - modY;
+                break;
+            }
+            case 1: {
+                int modY = newBomber1.y % Sprite.SCALED_SIZE;
+                newBomber1.y -= modY;
+                break;
+            }
+            case 2: {
+                int modX = newBomber1.x % Sprite.SCALED_SIZE;
+                newBomber1.x += Sprite.SCALED_SIZE - modX;
+                break;
+            }
+            case 3: {
+                int modX = newBomber1.x % Sprite.SCALED_SIZE;
+                newBomber1.x -= modX;
+                break;
+            }
+        }
+        if (newBomber1.checkValidMove()) {
+            x = newBomber1.getX();
+            y = newBomber1.getY();
         }
     }
 }
