@@ -25,6 +25,7 @@ import uet.oop.bomberman.map.MapReader;
 public class BombermanGame extends Application {
 
     private static MediaPlayer mediaPlayer;
+    private static boolean ttGameMenu = true;
     private static boolean isInMenu = true;
     private boolean changeRoot = false;
     private boolean isRunning = true;
@@ -69,7 +70,7 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
-        showGameMenu(stage,root);
+        showGameMenu(stage, root);
         AnimationTimer timer = new AnimationTimer() {
             private long lastFrameTime = 0;
 
@@ -89,7 +90,7 @@ public class BombermanGame extends Application {
                         this.stop();
                         mediaPlayer.stop();
                     }
-                    lastFrameTime = nowTime ;
+                    lastFrameTime = nowTime;
                 }
             }
         };
@@ -98,7 +99,7 @@ public class BombermanGame extends Application {
 
         Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         GameMap.bomberMan = bomberman;
-        KeyboardDetect.keyboardPressed(bomberman, scene);
+        KeyboardDetect.keyboardPressed(bomberman, root, stage, scene, this);
 
     }
 
@@ -113,11 +114,17 @@ public class BombermanGame extends Application {
         }
     }
 
-    void showGameMenu(Stage stage,Group root) {
+    public void showGameMenu(Stage stage, Group root) {
         //creating the image object
         InputStream stream = null;
         try {
-            stream = new FileInputStream("res/levels/title.png");
+            if (ttGameMenu == true) {
+                stream = new FileInputStream("res/levels/title.png");
+                ttGameMenu = !ttGameMenu;
+            } else {
+                stream = new FileInputStream("res/levels/title2.png");
+                ttGameMenu = !ttGameMenu;
+            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -132,6 +139,7 @@ public class BombermanGame extends Application {
         imageView.setFitWidth(31 * 32);
         imageView.setPreserveRatio(true);
         //Setting the Scene object
+        root.getChildren().clear();
         root.getChildren().add(imageView);
     }
 }
