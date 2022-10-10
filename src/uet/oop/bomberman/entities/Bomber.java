@@ -5,6 +5,7 @@ import jdk.nashorn.internal.ir.SplitReturn;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.soundplayer.SoundPlayer;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -113,12 +114,15 @@ public class Bomber extends Entity {
             }
         }
         if (isAlreadyExist == false && GameMap.bombs.size() < bombsNumLimit && !newBomb.checkCollideEnemy()) {
+
+            SoundPlayer.playLayBomb();
             GameMap.bombs.add(newBomb);
 
             //Activate Exploring the Bomb
             TimerTask timerTask1 = new TimerTask() {
                 @Override
                 public void run() {
+                    SoundPlayer.playBumb();
                     newBomb.setExplored(true);
                     newBomb.addFlameFourDirection();
                 }
@@ -227,7 +231,7 @@ public class Bomber extends Entity {
                 } else if (modY >= Sprite.SCALED_SIZE * 2 / 3) {
                     newBomber1.y += Sprite.SCALED_SIZE - modY;
                 }
-                newBomber1.x += changeX[direction]*moveLength;
+                newBomber1.x += changeX[direction] * moveLength;
                 break;
             }
             case 1:
@@ -238,13 +242,14 @@ public class Bomber extends Entity {
                 } else if (modX >= Sprite.SCALED_SIZE * 2 / 3) {
                     newBomber1.x += Sprite.SCALED_SIZE - modX;
                 }
-                newBomber1.y += changeY[direction]*moveLength;
+                newBomber1.y += changeY[direction] * moveLength;
                 break;
             }
         }
         if (newBomber1.checkValidMove()) {
             x = newBomber1.getX();
             y = newBomber1.getY();
+            setImg(directionImages[direction]);
         }
     }
 

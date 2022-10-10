@@ -32,7 +32,7 @@ public class Flame extends Entity {
         }
         for (Enemy enemy: GameMap.enemies) {
             if (this.checkCollide(enemy)) {
-                this.setExisting(false);
+                //this.setExisting(false);
                 enemy.setExisting(false);
             }
         }
