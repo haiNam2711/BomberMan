@@ -51,6 +51,17 @@ public class GameMap {
                 bomb.getFlames().removeIf(g -> !g.isExisting());
             }
 
+            //updating
+            portals.forEach(Portal::update);
+            bomberMan.update();
+            enemies.forEach(Enemy::update);
+            items.forEach(Item::update);
+            bombs.forEach(Bomb::update);
+            for (Bomb bomb : bombs) {
+                if (!bomb.isExisting()) continue;
+                bomb.getFlames().forEach(Flame::update);
+            }
+
             //rendering
             walls.forEach(g -> g.render(gc));
             grasses.forEach(g -> g.render(gc));
@@ -63,17 +74,6 @@ public class GameMap {
             bombs.forEach(g -> g.render(gc));
             enemies.forEach(g -> g.render(gc));
             bomberMan.render(gc);
-
-            //updating
-            portals.forEach(Portal::update);
-            bomberMan.update();
-            enemies.forEach(Enemy::update);
-            items.forEach(Item::update);
-            bombs.forEach(Bomb::update);
-            for (Bomb bomb : bombs) {
-                if (!bomb.isExisting()) continue;
-                bomb.getFlames().forEach(Flame::update);
-            }
         } catch (Exception e) {
             //System.out.println(e.getMessage());
         }

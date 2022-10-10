@@ -1,5 +1,14 @@
 package uet.oop.bomberman;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.*;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -12,24 +21,33 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.keyboarddetect.KeyboardDetect;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.map.MapReader;
-import uet.oop.bomberman.soundplayer.SoundPlayer;
-
-import java.io.IOException;
 
 public class BombermanGame extends Application {
 
+    private static MediaPlayer mediaPlayer;
+    private static boolean isInMenu = true;
+    private boolean changeRoot = false;
     private boolean isRunning = true;
     public static int WIDTH = GameMap.WIDTH;
     public static int HEIGHT = GameMap.HEIGHT;
     private GraphicsContext gc;
     private Canvas canvas;
 
+    public static boolean isInMenu() {
+        return isInMenu;
+    }
+
+    public static void setInMenu(boolean inMenu) {
+        isInMenu = inMenu;
+    }
 
     public static void main(String[] args) throws IOException {
         MapReader.reader(1);
         WIDTH = GameMap.WIDTH;
         HEIGHT = GameMap.HEIGHT;
-        SoundPlayer.playSound("/soundt");
+        Media sound = new Media(new File("res/soundtrack/soundt.wav").toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
         Application.launch(BombermanGame.class);
 
     }
@@ -51,15 +69,25 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
+        showGameMenu(stage,root);
         AnimationTimer timer = new AnimationTimer() {
             private long lastFrameTime = 0;
 
             @Override
             public void handle(long nowTime) {
                 if (nowTime - lastFrameTime >= 28000000) { // 120 fps
-                    run();
+                    if (isInMenu == false) {
+                        if (changeRoot == false) {
+                            changeRoot = true;
+                            root.getChildren().clear();
+                            root.getChildren().add(canvas);
+                        }
+                        run();
+                    }
+
                     if (isRunning == false) {
                         this.stop();
+                        mediaPlayer.stop();
                     }
                     lastFrameTime = nowTime ;
                 }
@@ -85,4 +113,25 @@ public class BombermanGame extends Application {
         }
     }
 
+    void showGameMenu(Stage stage,Group root) {
+        //creating the image object
+        InputStream stream = null;
+        try {
+            stream = new FileInputStream("res/levels/title.png");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Image image = new Image(stream);
+        //Creating the image view
+        ImageView imageView = new ImageView();
+        //Setting image to the image view
+        imageView.setImage(image);
+        //Setting the image view parameters
+        imageView.setX(0);
+        imageView.setY(0);
+        imageView.setFitWidth(31 * 32);
+        imageView.setPreserveRatio(true);
+        //Setting the Scene object
+        root.getChildren().add(imageView);
+    }
 }
