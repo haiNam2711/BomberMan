@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.bomb;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
@@ -34,6 +35,9 @@ public class Flame extends Entity {
             if (this.checkCollide(enemy)) {
                 //this.setExisting(false);
                 enemy.setExisting(false);
+
+                new BombermanGame().setGamePoint(BombermanGame.getGamePoint()+100);
+
             }
         }
         if (this.checkCollideBomber(GameMap.bomberMan)) {

@@ -15,12 +15,16 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.keyboarddetect.KeyboardDetect;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.map.MapReader;
+
 
 public class BombermanGame extends Application {
 
@@ -29,6 +33,7 @@ public class BombermanGame extends Application {
     private static boolean isInMenu = true;
     private boolean changeRoot = false;
     private boolean isRunning = true;
+    private static int gamePoint = 0;
     public static int WIDTH = GameMap.WIDTH;
     public static int HEIGHT = GameMap.HEIGHT;
     private GraphicsContext gc;
@@ -36,6 +41,14 @@ public class BombermanGame extends Application {
 
     public static boolean isInMenu() {
         return isInMenu;
+    }
+
+    public void setGamePoint(int gamePoint) {
+        this.gamePoint = gamePoint;
+    }
+
+    public static int getGamePoint() {
+        return gamePoint;
     }
 
     public static void setInMenu(boolean inMenu) {
@@ -56,19 +69,25 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) {
         // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 32);
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
+        Text text = new Text(100, 440, "Point: "+gamePoint);
+        Font font = new Font("Serif", 23);
+        text.setFont(font);
+        text.setFill(Color.WHITE);
 
         // Tao scene
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, Color.BLACK);
 
         // Them scene vao stage
         stage.setScene(scene);
         stage.show();
+
+
 
         showGameMenu(stage, root);
         AnimationTimer timer = new AnimationTimer() {
@@ -76,13 +95,17 @@ public class BombermanGame extends Application {
 
             @Override
             public void handle(long nowTime) {
-                if (nowTime - lastFrameTime >= 28000000) { // 120 fps
+
+                if (nowTime - lastFrameTime >= 28000000) {// 120 fps
                     if (isInMenu == false) {
                         if (changeRoot == false) {
                             changeRoot = true;
                             root.getChildren().clear();
                             root.getChildren().add(canvas);
                         }
+                        root.getChildren().remove(text);
+                        text.setText("Point : "+gamePoint);
+                        root.getChildren().add(text);
                         run();
                     }
 
@@ -115,6 +138,8 @@ public class BombermanGame extends Application {
     }
 
     public void showGameMenu(Stage stage, Group root) {
+
+
         //creating the image object
         InputStream stream = null;
         try {
@@ -135,11 +160,13 @@ public class BombermanGame extends Application {
         imageView.setImage(image);
         //Setting the image view parameters
         imageView.setX(0);
-        imageView.setY(0);
+        imageView.setY(16);
         imageView.setFitWidth(31 * 32);
         imageView.setPreserveRatio(true);
         //Setting the Scene object
         root.getChildren().clear();
         root.getChildren().add(imageView);
+
+
     }
 }
