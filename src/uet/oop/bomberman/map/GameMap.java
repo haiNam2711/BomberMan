@@ -6,9 +6,7 @@ import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
-import uet.oop.bomberman.entities.enemy.Balloon;
-import uet.oop.bomberman.entities.enemy.Enemy;
-import uet.oop.bomberman.entities.enemy.Oneal;
+import uet.oop.bomberman.entities.enemy.*;
 import uet.oop.bomberman.entities.maptexture.Brick;
 import uet.oop.bomberman.entities.maptexture.Grass;
 import uet.oop.bomberman.entities.maptexture.Portal;
@@ -54,13 +52,14 @@ public class GameMap {
             //updating
             portals.forEach(Portal::update);
             bomberMan.update();
-            enemies.forEach(Enemy::update);
-            items.forEach(Item::update);
-            bombs.forEach(Bomb::update);
             for (Bomb bomb : bombs) {
                 if (!bomb.isExisting()) continue;
                 bomb.getFlames().forEach(Flame::update);
             }
+            enemies.forEach(Enemy::update);
+            items.forEach(Item::update);
+            bombs.forEach(Bomb::update);
+
 
             //rendering
             walls.forEach(g -> g.render(gc));
@@ -104,6 +103,12 @@ public class GameMap {
                 } else if (mapLv1[i].charAt(j) == '2') {
                     Oneal oneal = new Oneal(j, i, Sprite.oneal_dead.getFxImage());
                     GameMap.enemies.add(oneal);
+                } else if (mapLv1[i].charAt(j) == '3') {
+                    object = new Doll(j, i, Sprite.doll_dead.getFxImage());
+                    GameMap.enemies.add((Doll) object);
+                } else if (mapLv1[i].charAt(j) == '4') {
+                    object = new Minvo(j, i, Sprite.minvo_dead.getFxImage());
+                    GameMap.enemies.add((Minvo) object);
                 } else if (mapLv1[i].charAt(j) == 's') {
                     object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
                     GameMap.items.add((SpeedItem) object);
