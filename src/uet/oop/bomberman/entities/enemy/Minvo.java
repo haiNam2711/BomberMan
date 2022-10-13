@@ -6,6 +6,8 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.GameMap;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Minvo extends Enemy {
     public Minvo(int xUnit, int yUnit, Image img) {
@@ -18,16 +20,22 @@ public class Minvo extends Enemy {
     @Override
     public void update() {
         if (!isExisting()) {
-            Balloon b1 = new Balloon(y, x, Sprite.balloom_dead.getFxImage());
-            GameMap.enemies.add(b1);
+            TimerTask timerTask1 = new TimerTask() {
+                @Override
+                public void run() {
+                    Balloon b1 = new Balloon(x/Sprite.SCALED_SIZE, y/Sprite.SCALED_SIZE, Sprite.balloom_dead.getFxImage());
+                    GameMap.enemies.add(b1);
 
-            Balloon b2 = new Balloon(y, x, Sprite.balloom_dead.getFxImage());
-            GameMap.enemies.add(b2);
-
+                    Balloon b2 = new Balloon(x/Sprite.SCALED_SIZE, y/Sprite.SCALED_SIZE, Sprite.balloom_dead.getFxImage());
+                    GameMap.enemies.add(b2);
+                }
+            };
+            Timer timer1 = new Timer();
+            timer1.schedule(timerTask1,600L);
 
         }
         randomMove();
-        if (checkCollideBomber(this,GameMap.bomberMan)) {
+        if (checkCollideBomber(this, GameMap.bomberMan)) {
             GameMap.bomberMan.setExisting(false);
         }
     }
