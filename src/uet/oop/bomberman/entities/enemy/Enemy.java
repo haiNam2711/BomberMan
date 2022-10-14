@@ -74,11 +74,84 @@ public abstract class Enemy extends Entity implements CheckCollideBomber {
         }
     }
 
-//    public void checkCollideBomber(Bomber b) {
-//        if (Math.abs(b.getX()-x) + Math.abs(b.getY()-y) <= b.getMoveLength()) {
-//            b.setExisting(false);
-//        }
-//    }
+    public void higherLevelRandomMove() {
+        if (direction != -1) {
+            if (direction == 0 || direction == 1) {
+                Random generator2 = new Random();
+                int value = generator2.nextInt((1 - 0) + 1) + 2;
+                x += changeX[value] * moveLength;
+                y += changeY[value] * moveLength;
+                if (checkValidMove()) {
+                    direction = value;
+                    return;
+                }
+                x -= changeX[value] * moveLength;
+                y -= changeY[value] * moveLength;
+
+                value = 5 - value;
+                x += changeX[value] * moveLength;
+                y += changeY[value] * moveLength;
+                if (checkValidMove()) {
+                    direction = value;
+                    return;
+                }
+                x -= changeX[value] * moveLength;
+                y -= changeY[value] * moveLength;
+            } else {
+                Random generator2 = new Random();
+                int value = generator2.nextInt((1 - 0) + 1);
+                x += changeX[value] * moveLength;
+                y += changeY[value] * moveLength;
+                if (checkValidMove()) {
+                    direction = value;
+                    return;
+                }
+                x -= changeX[value] * moveLength;
+                y -= changeY[value] * moveLength;
+
+                value = 1 - value;
+                x += changeX[value] * moveLength;
+                y += changeY[value] * moveLength;
+                if (checkValidMove()) {
+                    direction = value;
+                    return;
+                }
+                x -= changeX[value] * moveLength;
+                y -= changeY[value] * moveLength;
+            }
+            x += changeX[direction] * moveLength;
+            y += changeY[direction] * moveLength;
+            if (checkValidMove()) {
+                return;
+            }
+            x -= changeX[direction] * moveLength;
+            y -= changeY[direction] * moveLength;
+
+        }
+
+        this.setDirection(generateRandom());
+        x += changeX[direction] * moveLength;
+        y += changeY[direction] * moveLength;
+        if (!checkValidMove()) {
+            x -= changeX[direction] * moveLength;
+            y -= changeY[direction] * moveLength;
+        } else {
+            switch (direction) {
+                //        changeX = {0, 0, 1, -1};     D-U-R-L
+                //        changeY = {1, -1, 0, 0};     0-1-2-3
+                case 0:
+                case 2: {
+                    setImg(Sprite.movingSprite(spritesSet1[0], spritesSet1[1], spritesSet1[2], this.getX(), 60).getFxImage());
+                    break;
+                }
+                case 1:
+                case 3: {
+                    setImg(Sprite.movingSprite(spritesSet2[0], spritesSet2[1], spritesSet2[2], this.getX(), 60).getFxImage());
+                    break;
+                }
+            }
+        }
+    }
 
     @Override
     public abstract void update() ;
