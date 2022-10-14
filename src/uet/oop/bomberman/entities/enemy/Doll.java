@@ -26,7 +26,7 @@ public class Doll extends Enemy {
         if (!isExisting()) {
             return;
         }
-        randomMove();
+        higherLevelRandomMove();
         if (checkCollideBomber(this,GameMap.bomberMan)) {
             GameMap.bomberMan.setExisting(false);
         }
