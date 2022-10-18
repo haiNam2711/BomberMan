@@ -109,6 +109,9 @@ public class GameMap {
                 } else if (mapLv1[i].charAt(j) == '4') {
                     object = new Minvo(j, i, Sprite.minvo_dead.getFxImage());
                     GameMap.enemies.add((Minvo) object);
+                } else if (mapLv1[i].charAt(j) == '5') {
+                    object = new Kondoria(j, i, Sprite.kondoria_dead.getFxImage());
+                    GameMap.enemies.add((Kondoria) object);
                 } else if (mapLv1[i].charAt(j) == 's') {
                     object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
                     GameMap.items.add((SpeedItem) object);
