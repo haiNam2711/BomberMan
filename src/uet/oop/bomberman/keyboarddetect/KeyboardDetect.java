@@ -9,8 +9,10 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.GameMap;
 
 public class KeyboardDetect {
-    public static void keyboardPressed(Bomber bomberman, Group root, Stage stage, Scene scene, BombermanGame bG) {
+    public static void keyboardPressed(Group root, Stage stage, Scene scene, BombermanGame bG) {
+
         scene.setOnKeyPressed(event -> {
+            Bomber bomberman = GameMap.bomberMan;
                     if (BombermanGame.isInMenu()) {
                         if (event.getCode().toString().equals("RIGHT")) {
                             bG.showGameMenu(stage, root);

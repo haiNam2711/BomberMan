@@ -75,7 +75,7 @@ public class BombermanGame extends Application {
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
-        Text text = new Text(100, 440, "Point: "+gamePoint);
+        Text text = new Text(100, 440, "Point: " + gamePoint);
         Font font = new Font("Serif", 23);
         text.setFont(font);
         text.setFill(Color.WHITE);
@@ -87,9 +87,8 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
-
-
         showGameMenu(stage, root);
+
         AnimationTimer timer = new AnimationTimer() {
             private long lastFrameTime = 0;
 
@@ -97,21 +96,40 @@ public class BombermanGame extends Application {
             public void handle(long nowTime) {
 
                 if (nowTime - lastFrameTime >= 28000000) {// 120 fps
-                    if (isInMenu == false) {
-                        if (changeRoot == false) {
-                            changeRoot = true;
-                            root.getChildren().clear();
-                            root.getChildren().add(canvas);
+                    if (isRunning == true) {
+                        if (isInMenu == false) {
+                            if (changeRoot == false) {
+                                changeRoot = true;
+                                root.getChildren().clear();
+                                root.getChildren().add(canvas);
+                            }
+                            root.getChildren().remove(text);
+                            text.setText("Point : " + gamePoint);
+                            root.getChildren().add(text);
+                            run();
                         }
-                        root.getChildren().remove(text);
-                        text.setText("Point : "+gamePoint);
-                        root.getChildren().add(text);
-                        run();
-                    }
-
-                    if (isRunning == false) {
-                        this.stop();
-                        mediaPlayer.stop();
+                    } else {
+                        if (GameMap.toNextLevel == true) {
+                            GameMap.clearAll();
+                            root.getChildren().clear();
+                            mediaPlayer.stop();
+                            try {
+                                Thread.sleep(1000L);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            mediaPlayer.play();
+                            root.getChildren().add(canvas);
+                            GameMap.clearAll();
+                            GameMap.createMap();
+                            Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+                            GameMap.bomberMan = bomberman;
+                            isRunning = true;
+                            GameMap.toNextLevel = false;
+                        } else {
+                            this.stop();
+                            mediaPlayer.stop();
+                        }
                     }
                     lastFrameTime = nowTime;
                 }
@@ -122,7 +140,7 @@ public class BombermanGame extends Application {
 
         Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         GameMap.bomberMan = bomberman;
-        KeyboardDetect.keyboardPressed(bomberman, root, stage, scene, this);
+        KeyboardDetect.keyboardPressed(root, stage, scene, this);
 
     }
 

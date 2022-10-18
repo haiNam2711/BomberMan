@@ -13,6 +13,7 @@ import java.util.TimerTask;
 public class Bomber extends Entity {
 
     private int moveLength = 6;
+    private int animatingVariable = 0;
     private boolean bombCollideFlag = false;
     private final Image[] directionImages = {Sprite.player_down.getFxImage(), Sprite.player_up.getFxImage(), Sprite.player_right.getFxImage(), Sprite.player_left.getFxImage()};
     private int direction = -1;
@@ -55,6 +56,11 @@ public class Bomber extends Entity {
 
     @Override
     public void update() {
+        if (animatingVariable == 60) {
+            animatingVariable = 0;
+        } else {
+            animatingVariable+=5;
+        }
         //System.out.println(x);
         if (direction == 4) {
             layBomb();
@@ -80,19 +86,19 @@ public class Bomber extends Entity {
                 //        changeX = {0, 0, 1, -1};     D-U-R-L
                 //        changeY = {1, -1, 0, 0};     0-1-2-3
                 case 0: {
-                    setImg(Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, this.getY(), 60).getFxImage());
+                    setImg(Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animatingVariable, 60).getFxImage());
                     break;
                 }
                 case 1: {
-                    setImg(Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, this.getY(), 60).getFxImage());
+                    setImg(Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animatingVariable, 60).getFxImage());
                     break;
                 }
                 case 2: {
-                    setImg(Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, this.getX(), 60).getFxImage());
+                    setImg(Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animatingVariable, 60).getFxImage());
                     break;
                 }
                 case 3: {
-                    setImg(Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, this.getX(), 60).getFxImage());
+                    setImg(Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animatingVariable, 60).getFxImage());
                     break;
                 }
             }
@@ -115,14 +121,14 @@ public class Bomber extends Entity {
         }
         if (isAlreadyExist == false && GameMap.bombs.size() < bombsNumLimit && !newBomb.checkCollideEnemy()) {
 
-            SoundPlayer.playLayBomb();
+            SoundPlayer.playSound("lay_bomb");
             GameMap.bombs.add(newBomb);
 
             //Activate Exploring the Bomb
             TimerTask timerTask1 = new TimerTask() {
                 @Override
                 public void run() {
-                    SoundPlayer.playBumb();
+                    SoundPlayer.playSound("bumb");
                     newBomb.setExplored(true);
                     newBomb.addFlameFourDirection();
                 }
