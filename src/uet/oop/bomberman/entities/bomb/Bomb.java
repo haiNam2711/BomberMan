@@ -13,7 +13,7 @@ public class Bomb extends Entity {
 
     private List<Flame> flames = new ArrayList<Flame>();
 
-    public int animatingVariable = 1;
+    private int animatingVariable = 1;
 
     public void setFlameLength() {
         this.flameLength ++;

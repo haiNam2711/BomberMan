@@ -37,7 +37,7 @@ public class GameMap {
     public static Bomber bomberMan;//= new Bomber();
 
     public static void render(GraphicsContext gc, Canvas canvas) {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.clearRect(0, 0, WIDTH*32, HEIGHT*32);
 
         try {
             //clear broken items
@@ -133,5 +133,16 @@ public class GameMap {
                 }
             }
         }
+    }
+
+    public static void clearAll() {
+        bricks = new ArrayList<>();
+        portals = new ArrayList<>();
+        walls = new ArrayList<>();
+        grasses = new ArrayList<>();
+        enemies = new ArrayList<>();
+        bombs = new ArrayList<>();
+        items = new ArrayList<>();
+        bomberMan = new Bomber();
     }
 }
