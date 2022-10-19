@@ -107,7 +107,7 @@ public abstract class Entity {
         return false;
     }
 
-    public boolean checkCollideBomb() throws NullPointerException{
+    public boolean checkCollideBomb() {
         for (Bomb bomb : GameMap.bombs) {
             if (Objects.isNull(bomb)) continue;
             if (!bomb.isExisting()) return false;

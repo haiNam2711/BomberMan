@@ -24,7 +24,7 @@ public class GameMap {
     public static int WIDTH;
     public static int HEIGHT;
     public static boolean toNextLevel = false;
-    public static String[] mapLv1 = new String[100];
+    public static String[][] map = new String[3][100];
 
 
     public static List<Brick> bricks = new ArrayList<>();
@@ -35,6 +35,7 @@ public class GameMap {
     public static List<Bomb> bombs = new ArrayList<>();
     public static List<Item> items = new ArrayList<>();
     public static Bomber bomberMan;//= new Bomber();
+    public static int gameLvl = 1;
 
     public static void render(GraphicsContext gc, Canvas canvas) {
         gc.clearRect(0, 0, WIDTH*32, HEIGHT*32);
@@ -74,61 +75,62 @@ public class GameMap {
             enemies.forEach(g -> g.render(gc));
             bomberMan.render(gc);
         } catch (Exception e) {
-            //System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
     public static void createMap() {
-
-        String[] mapLv1 = GameMap.mapLv1;
-
+        String[] tmpMap = GameMap.map[gameLvl];
 
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 Entity object;
-                if (mapLv1[i].charAt(j) == '#') {
+                if (tmpMap[i].charAt(j) == '#') {
                     object = new Wall(j, i, Sprite.wall.getFxImage());
                     GameMap.walls.add((Wall) object);
-                } else if (mapLv1[i].charAt(j) == 'x') {
+                } else if (tmpMap[i].charAt(j) == 'x') {
                     object = new Portal(j, i, Sprite.portal.getFxImage());
                     GameMap.portals.add((Portal) object);
                     object = new Brick(j, i, Sprite.brick.getFxImage());
                     GameMap.bricks.add((Brick) object);
-                } else if (mapLv1[i].charAt(j) == '*') {
+                } else if (tmpMap[i].charAt(j) == '*') {
                     object = new Brick(j, i, Sprite.brick.getFxImage());
                     GameMap.bricks.add((Brick) object);
-                } else if (mapLv1[i].charAt(j) == '1') {
+                } else if (tmpMap[i].charAt(j) == '1') {
                     object = new Balloon(j, i, Sprite.balloom_dead.getFxImage());
                     GameMap.enemies.add((Balloon) object);
-                } else if (mapLv1[i].charAt(j) == '2') {
+                } else if (tmpMap[i].charAt(j) == '2') {
                     Oneal oneal = new Oneal(j, i, Sprite.oneal_dead.getFxImage());
                     GameMap.enemies.add(oneal);
-                } else if (mapLv1[i].charAt(j) == '3') {
+                } else if (tmpMap[i].charAt(j) == '3') {
                     object = new Doll(j, i, Sprite.doll_dead.getFxImage());
                     GameMap.enemies.add((Doll) object);
-                } else if (mapLv1[i].charAt(j) == '4') {
+                } else if (tmpMap[i].charAt(j) == '4') {
                     object = new Minvo(j, i, Sprite.minvo_dead.getFxImage());
                     GameMap.enemies.add((Minvo) object);
-                } else if (mapLv1[i].charAt(j) == '5') {
+                } else if (tmpMap[i].charAt(j) == '5') {
                     object = new Kondoria(j, i, Sprite.kondoria_dead.getFxImage());
                     GameMap.enemies.add((Kondoria) object);
-                } else if (mapLv1[i].charAt(j) == 's') {
+                } else if (tmpMap[i].charAt(j) == 's') {
                     object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
                     GameMap.items.add((SpeedItem) object);
                     object = new Brick(j, i, Sprite.brick.getFxImage());
                     GameMap.bricks.add((Brick) object);
-                } else if (mapLv1[i].charAt(j) == 'b') {
+                } else if (tmpMap[i].charAt(j) == 'b') {
                     object = new BombItem(j, i, Sprite.powerup_bombs.getFxImage());
                     GameMap.items.add((BombItem) object);
                     object = new Brick(j, i, Sprite.brick.getFxImage());
                     GameMap.bricks.add((Brick) object);
-                } else if (mapLv1[i].charAt(j) == 'f') {
+                } else if (tmpMap[i].charAt(j) == 'f') {
                     object = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
                     GameMap.items.add((FlameItem) object);
                     object = new Brick(j, i, Sprite.brick.getFxImage());
                     GameMap.bricks.add((Brick) object);
+                } else if (tmpMap[i].charAt(j) == 'p') {
+                    object = new Bomber(j, i, Sprite.player_right.getFxImage());
+                    GameMap.bomberMan = (Bomber) object;
                 }
-                if (mapLv1[i].charAt(j) != '#') {
+                if (tmpMap[i].charAt(j) != '#') {
                     GameMap.grasses.add(new Grass(j, i, Sprite.grass.getFxImage()));
                 }
             }

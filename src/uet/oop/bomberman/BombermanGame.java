@@ -1,29 +1,30 @@
 package uet.oop.bomberman;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
-import java.io.*;
-
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.Bomber;
+import javafx.util.Duration;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.keyboarddetect.KeyboardDetect;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.map.MapReader;
+
+import java.io.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class BombermanGame extends Application {
@@ -55,13 +56,20 @@ public class BombermanGame extends Application {
         isInMenu = inMenu;
     }
 
+    public void setLevelState(int lS) {
+        levelState = lS;
+    }
+
+    private static int levelState = 0;
+
+
     public static void main(String[] args) throws IOException {
         MapReader.reader(1);
+        MapReader.reader(2);
         WIDTH = GameMap.WIDTH;
         HEIGHT = GameMap.HEIGHT;
         Media sound = new Media(new File("res/soundtrack/soundt.wav").toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
         Application.launch(BombermanGame.class);
 
     }
@@ -87,7 +95,7 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
-        showGameMenu(stage, root);
+        showGameMenu(root);
 
         AnimationTimer timer = new AnimationTimer() {
             private long lastFrameTime = 0;
@@ -96,9 +104,10 @@ public class BombermanGame extends Application {
             public void handle(long nowTime) {
 
                 if (nowTime - lastFrameTime >= 28000000) {// 120 fps
-                    if (isRunning == true) {
-                        if (isInMenu == false) {
-                            if (changeRoot == false) {
+                    if (isRunning) {
+                        if (!isInMenu) {
+                            if (!changeRoot) {
+                                mediaPlayer.play();
                                 changeRoot = true;
                                 root.getChildren().clear();
                                 root.getChildren().add(canvas);
@@ -109,26 +118,77 @@ public class BombermanGame extends Application {
                             run();
                         }
                     } else {
-                        if (GameMap.toNextLevel == true) {
-                            GameMap.clearAll();
-                            root.getChildren().clear();
-                            mediaPlayer.stop();
-                            try {
-                                Thread.sleep(1000L);
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                        if (GameMap.toNextLevel) {
+                            if (GameMap.gameLvl == 3) {
+                                if (levelState == 1) {
+                                    root.getChildren().clear();
+                                    Text text2 = new Text(440, 220, "");
+                                    Font font2 = new Font("Serif", 23);
+                                    text2.setText("Congratulation! ");
+                                    text2.setFont(font2);
+                                    text2.setFill(Color.WHITE);
+                                    root.getChildren().add(text2);
+                                    TimerTask timerTask1 = new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            System.exit(1);
+                                        }
+                                    };
+                                    Timer timer1 = new Timer();
+                                    timer1.schedule(timerTask1, 1000L);
+                                    levelState = 2;
+                                }
+
+                            } else {
+                                mediaPlayer.stop();
+                                GameMap.clearAll();
+                                gc.clearRect(0, 0, WIDTH * 32, HEIGHT * 32);
+                                root.getChildren().clear();
+                                Text text2 = new Text(440, 220, "");
+                                Font font2 = new Font("Serif", 23);
+                                text2.setText("Next Level");
+                                text2.setFont(font2);
+                                text2.setFill(Color.WHITE);
+                                root.getChildren().add(text2);
+                                if (levelState == 0) {
+                                    GameMap.gameLvl++;
+                                    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
+                                        if (GameMap.gameLvl != 3) {
+                                            mediaPlayer.play();
+                                            root.getChildren().add(canvas);
+                                            GameMap.clearAll();
+                                            GameMap.createMap();
+                                            isRunning = true;
+                                            GameMap.toNextLevel = false;
+                                        }
+                                    }));
+                                    timeline.setCycleCount(1);
+                                    timeline.play();
+
+                                    levelState = 1;
+                                }
                             }
-                            mediaPlayer.play();
-                            root.getChildren().add(canvas);
-                            GameMap.clearAll();
-                            GameMap.createMap();
-                            Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-                            GameMap.bomberMan = bomberman;
-                            isRunning = true;
-                            GameMap.toNextLevel = false;
                         } else {
-                            this.stop();
-                            mediaPlayer.stop();
+                            if (levelState == 0) {
+                                mediaPlayer.stop();
+                                GameMap.clearAll();
+                                gc.clearRect(0, 0, WIDTH * 32, HEIGHT * 32);
+                                root.getChildren().clear();
+                                Text text2 = new Text(440, 220, "");
+                                Font font2 = new Font("Serif", 23);
+                                text2.setText("Game Over! ");
+                                text2.setFont(font2);
+                                text2.setFill(Color.WHITE);
+                                root.getChildren().add(text2);
+                                levelState++;
+                            } else {
+                                Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), ev -> {
+                                    this.stop();
+                                    System.exit(1);
+                                }));
+                                timeline.setCycleCount(1);
+                                timeline.play();
+                            }
                         }
                     }
                     lastFrameTime = nowTime;
@@ -138,8 +198,6 @@ public class BombermanGame extends Application {
         timer.start();
         GameMap.createMap();
 
-        Bomber bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-        GameMap.bomberMan = bomberman;
         KeyboardDetect.keyboardPressed(root, stage, scene, this);
 
     }
@@ -151,11 +209,10 @@ public class BombermanGame extends Application {
         }
         if (GameMap.toNextLevel) {
             isRunning = false;
-            System.out.println(1);
         }
     }
 
-    public void showGameMenu(Stage stage, Group root) {
+    public void showGameMenu(Group root) {
 
 
         //creating the image object
