@@ -14,32 +14,37 @@ public class Bfs {
 
 
     public BfsNode loang(int startX, int startY, int endX, int endY) {
-        for (int i = 0; i < GameMap.WIDTH * Sprite.SCALED_SIZE; i++) {
-            for (int j = 0; j < GameMap.HEIGHT * Sprite.SCALED_SIZE; j++) {
-                mark[i][j] = 0;
-            }
-        }
-        BfsNode res = new BfsNode();
-        BfsQueue bfsQueue = new BfsQueue(GameMap.WIDTH * GameMap.HEIGHT * Sprite.SCALED_SIZE * Sprite.SCALED_SIZE + 99);
-        bfsQueue.enqueue(new BfsNode(startX, startY));
-        mark[startX][startY] = 1;
-        while (!bfsQueue.isEmpty() && mark[endX][endY] == 0) {
-            BfsNode bn = bfsQueue.dequeue();
-            //        changeX = {0, 0, 1, -1};     D-U-R-L
-            //        changeY = {1, -1, 0, 0};     0-1-2-3
-            for (int dir=0;dir<4;dir++) {
-                Oneal oneal = new Oneal(bn.getX()+changeX[dir],bn.getY()+changeY[dir]);
-
-                if (oneal.checkValidMove() && oneal.getX() == endX && oneal.getY() == endY) {
-                    res.setX(bn.getX());
-                    res.setY(bn.getY());
-                    return res;
+        try {
+            for (int i = 0; i < GameMap.WIDTH * Sprite.SCALED_SIZE; i++) {
+                for (int j = 0; j < GameMap.HEIGHT * Sprite.SCALED_SIZE; j++) {
+                    mark[i][j] = 0;
                 }
-                if (!oneal.checkValidMove() || (mark[oneal.getX()][oneal.getY()] != 0)) continue;
-                bfsQueue.enqueue(new BfsNode(oneal.getX(),oneal.getY()));
-                mark[oneal.getX()][oneal.getY()] = 1;
             }
+            BfsNode res = new BfsNode();
+            BfsQueue bfsQueue = new BfsQueue(GameMap.WIDTH * GameMap.HEIGHT * Sprite.SCALED_SIZE * Sprite.SCALED_SIZE + 99);
+            bfsQueue.enqueue(new BfsNode(startX, startY));
+            mark[startX][startY] = 1;
+            while (!bfsQueue.isEmpty() && mark[endX][endY] == 0) {
+                BfsNode bn = bfsQueue.dequeue();
+                //        changeX = {0, 0, 1, -1};     D-U-R-L
+                //        changeY = {1, -1, 0, 0};     0-1-2-3
+                for (int dir = 0; dir < 4; dir++) {
+                    Oneal oneal = new Oneal(bn.getX() + changeX[dir], bn.getY() + changeY[dir]);
+
+                    if (oneal.checkValidMove() && oneal.getX() == endX && oneal.getY() == endY) {
+                        res.setX(bn.getX());
+                        res.setY(bn.getY());
+                        return res;
+                    }
+                    if (!oneal.checkValidMove() || (mark[oneal.getX()][oneal.getY()] != 0)) continue;
+                    bfsQueue.enqueue(new BfsNode(oneal.getX(), oneal.getY()));
+                    mark[oneal.getX()][oneal.getY()] = 1;
+                }
+            }
+            return new BfsNode(-1, -1);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        return new BfsNode(-1,-1);
+        return new BfsNode(-1, -1);
     }
 }

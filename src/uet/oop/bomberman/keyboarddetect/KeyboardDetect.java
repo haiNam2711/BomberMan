@@ -15,13 +15,13 @@ public class KeyboardDetect {
             Bomber bomberman = GameMap.bomberMan;
                     if (BombermanGame.isInMenu()) {
                         if (event.getCode().toString().equals("RIGHT")) {
-                            bG.showGameMenu(stage, root);
+                            bG.showGameMenu(root);
                         } else if (event.getCode().toString().equals("LEFT")) {
-                            bG.showGameMenu(stage, root);
+                            bG.showGameMenu(root);
                         } else if (event.getCode().toString().equals("UP")) {
-                            bG.showGameMenu(stage, root);
+                            bG.showGameMenu(root);
                         } else if (event.getCode().toString().equals("DOWN")) {
-                            bG.showGameMenu(stage, root);
+                            bG.showGameMenu(root);
                         } else if (event.getCode().toString().equals("SPACE")) {
                             BombermanGame.setInMenu(false);
                         }

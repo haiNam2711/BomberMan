@@ -32,6 +32,6 @@ public class MapReader {
                 dem++;
             }
         }
-        GameMap.mapLv1 = res;
+        GameMap.map[lvl] = res;
     }
 }
