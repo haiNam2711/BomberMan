@@ -111,7 +111,10 @@ public class GameMap {
                 } else if (tmpMap[i].charAt(j) == '5') {
                     object = new Kondoria(j, i, Sprite.kondoria_dead.getFxImage());
                     GameMap.enemies.add((Kondoria) object);
-                } else if (tmpMap[i].charAt(j) == 's') {
+                } else if (tmpMap[i].charAt(j) == '6') {
+                    object = new Ovapi(j, i, Sprite.ovapi_dead.getFxImage());
+                    GameMap.enemies.add((Ovapi) object);
+                }else if (tmpMap[i].charAt(j) == 's') {
                     object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
                     GameMap.items.add((SpeedItem) object);
                     object = new Brick(j, i, Sprite.brick.getFxImage());
