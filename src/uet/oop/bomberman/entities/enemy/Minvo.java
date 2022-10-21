@@ -32,6 +32,7 @@ public class Minvo extends Enemy {
             };
             Timer timer1 = new Timer();
             timer1.schedule(timerTask1,600L);
+            new BombermanGame().setGamePoint(BombermanGame.getGamePoint()+100);
 
         }
         randomMove();

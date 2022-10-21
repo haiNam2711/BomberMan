@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.enemy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.GameMap;
 
@@ -18,7 +19,10 @@ public class Balloon extends Enemy {
     @Override
     public void update() {
         if (!isExisting()) {
+            new BombermanGame().setGamePoint(BombermanGame.getGamePoint()+100);
+
             return;
+
         }
         randomMove();
         if (checkCollideBomber(this,GameMap.bomberMan)) {

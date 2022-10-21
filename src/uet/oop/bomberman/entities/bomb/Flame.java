@@ -35,9 +35,6 @@ public class Flame extends Entity {
             if (this.checkCollide(enemy)) {
                 //this.setExisting(false);
                 enemy.setExisting(false);
-
-                new BombermanGame().setGamePoint(BombermanGame.getGamePoint()+100);
-
             }
         }
         if (this.checkCollideBomber(GameMap.bomberMan)) {

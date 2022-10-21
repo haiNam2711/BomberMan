@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.enemy;
 
 import javafx.scene.image.Image;
 
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.GameMap;
 
@@ -43,6 +44,7 @@ public class Kondoria extends Enemy {
     @Override
     public void update() {
         if (!isExisting()) {
+            new BombermanGame().setGamePoint(BombermanGame.getGamePoint()+100);
             return;
         }
         if (this.getX() == GameMap.bomberMan.getX()) {
