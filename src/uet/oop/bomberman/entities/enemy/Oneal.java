@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.enemy;
 
 import javafx.scene.image.Image;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.algorithm.Bfs;
 import uet.oop.bomberman.algorithm.BfsNode;
 import uet.oop.bomberman.entities.Bomber;
@@ -23,7 +24,10 @@ public class Oneal extends Enemy {
         if(checkCollideBomber(this,GameMap.bomberMan)){
             GameMap.bomberMan.setExisting(false);
         }
-        if (!existing) return;
+        if (!existing){
+            new BombermanGame().setGamePoint(BombermanGame.getGamePoint()+100);
+            return;
+        }
         //randomMove();
         Bomber bomber = GameMap.bomberMan;
         int bomberX = bomber.getX();

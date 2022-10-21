@@ -24,6 +24,7 @@ public class Doll extends Enemy {
     @Override
     public void update() {
         if (!isExisting()) {
+            new BombermanGame().setGamePoint(BombermanGame.getGamePoint()+100);
             return;
         }
         higherLevelRandomMove();
