@@ -34,9 +34,13 @@ public abstract class Enemy extends Entity implements CheckCollideBomber {
     }
 
     public boolean checkValidMove() {
-        boolean collide = true;
-        if (checkCollideWall() || checkCollideBrick() || checkCollideBomb() ) collide = false;
-        return collide;
+        try {
+            boolean collide = true;
+            if (checkCollideWall() || checkCollideBrick() || checkCollideBomb()) collide = false;
+            return collide;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void randomMove() {

@@ -1,5 +1,6 @@
 package uet.oop.bomberman.algorithm;
 
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.enemy.Oneal;
 import uet.oop.bomberman.graphics.Sprite;
@@ -14,6 +15,10 @@ public class Bfs {
 
 
     public BfsNode loang(int startX, int startY, int endX, int endY) {
+        if (BombermanGame.isInRandomMapMode)
+            if (Math.abs(endX - startX) + Math.abs(endY - startY) > 32 * 8) {
+                return new BfsNode(-1, -1);
+            }
         try {
             for (int i = 0; i < GameMap.WIDTH * Sprite.SCALED_SIZE; i++) {
                 for (int j = 0; j < GameMap.HEIGHT * Sprite.SCALED_SIZE; j++) {
@@ -26,6 +31,10 @@ public class Bfs {
             mark[startX][startY] = 1;
             while (!bfsQueue.isEmpty() && mark[endX][endY] == 0) {
                 BfsNode bn = bfsQueue.dequeue();
+                if (BombermanGame.isInRandomMapMode)
+                    if (Math.abs(bn.getX() - startX) + Math.abs(bn.getY() - startY) > 32 * 6) {
+                        continue;
+                    }
                 //        changeX = {0, 0, 1, -1};     D-U-R-L
                 //        changeY = {1, -1, 0, 0};     0-1-2-3
                 for (int dir = 0; dir < 4; dir++) {

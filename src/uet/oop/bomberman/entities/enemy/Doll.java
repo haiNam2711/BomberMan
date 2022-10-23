@@ -16,23 +16,26 @@ public class Doll extends Enemy {
 
     @Override
     public boolean checkValidMove() {
-        boolean collide = true;
-        if (checkCollideWall() || checkCollideBomb() ) collide = false;
-        return collide;
+        try {
+            boolean collide = true;
+            if (checkCollideWall() || checkCollideBomb()) collide = false;
+            return collide;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public void update() {
         if (!isExisting()) {
-            new BombermanGame().setGamePoint(BombermanGame.getGamePoint()+100);
+            new BombermanGame().setGamePoint(BombermanGame.getGamePoint() + 100);
             return;
         }
-        higherLevelRandomMove();
-        if (checkCollideBomber(this,GameMap.bomberMan)) {
+        if (BombermanGame.isInRandomMapMode) randomMove(); else higherLevelRandomMove();
+        if (checkCollideBomber(this, GameMap.bomberMan)) {
             GameMap.bomberMan.setExisting(false);
         }
     }
-
 
 
 }

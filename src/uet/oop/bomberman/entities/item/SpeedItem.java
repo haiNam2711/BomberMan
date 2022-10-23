@@ -1,8 +1,7 @@
-package uet.oop.item;
+package uet.oop.bomberman.entities.item;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.GameMap;
 
 public class SpeedItem extends Item{

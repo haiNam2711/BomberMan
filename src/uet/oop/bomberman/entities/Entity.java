@@ -107,7 +107,7 @@ public abstract class Entity {
         return false;
     }
 
-    public boolean checkCollideBomb() {
+    public boolean checkCollideBomb() throws Exception{
         for (Bomb bomb : GameMap.bombs) {
             if (Objects.isNull(bomb)) continue;
             if (!bomb.isExisting()) return false;
