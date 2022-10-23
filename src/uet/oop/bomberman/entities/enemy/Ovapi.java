@@ -21,7 +21,7 @@ public class Ovapi extends Enemy {
             new BombermanGame().setGamePoint(BombermanGame.getGamePoint()+100);
             return;
         }
-        higherLevelRandomMove();
+        if (BombermanGame.isInRandomMapMode) randomMove(); else higherLevelRandomMove();
         if (checkCollideBomber(this,GameMap.bomberMan)) {
             GameMap.bomberMan.setExisting(false);
         }

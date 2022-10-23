@@ -17,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import uet.oop.bomberman.algorithm.RandMap;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.keyboarddetect.KeyboardDetect;
 import uet.oop.bomberman.map.GameMap;
@@ -28,6 +29,7 @@ import java.util.TimerTask;
 
 
 public class BombermanGame extends Application {
+    public static boolean isInRandomMapMode = false;
 
     private static MediaPlayer mediaPlayer;
     private static boolean ttGameMenu = true;
@@ -64,6 +66,10 @@ public class BombermanGame extends Application {
 
 
     public static void main(String[] args) throws IOException {
+        isInRandomMapMode = false;
+        if (isInRandomMapMode) {
+            (new RandMap()).randMap();
+        }
         MapReader.reader(1);
         MapReader.reader(2);
         WIDTH = GameMap.WIDTH;
@@ -71,12 +77,12 @@ public class BombermanGame extends Application {
         Media sound = new Media(new File("res/soundtrack/soundt.wav").toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
         Application.launch(BombermanGame.class);
-
     }
 
     @Override
     public void start(Stage stage) {
         // Tao Canvas
+        stage.setTitle("Bomber Man");
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT + 32);
         gc = canvas.getGraphicsContext2D();
 
@@ -115,13 +121,17 @@ public class BombermanGame extends Application {
                             root.getChildren().remove(text);
                             text.setText("Point : " + gamePoint);
                             root.getChildren().add(text);
-                            run();
+                            try {
+                                run();
+                            } catch (Exception e) {}
                         }
                     } else {
                         if (GameMap.toNextLevel) {
                             if (GameMap.gameLvl == 3) {
                                 if (levelState == 1) {
                                     root.getChildren().clear();
+                                    GameMap.clearAll();
+                                    gc.clearRect(0, 0, WIDTH * 32, HEIGHT * 32);
                                     Text text2 = new Text(440, 220, "");
                                     Font font2 = new Font("Serif", 23);
                                     text2.setText("Congratulation! ");
@@ -219,10 +229,10 @@ public class BombermanGame extends Application {
         InputStream stream = null;
         try {
             if (ttGameMenu == true) {
-                stream = new FileInputStream("res/levels/title.png");
+                stream = new FileInputStream("res/menu/title.png");
                 ttGameMenu = !ttGameMenu;
             } else {
-                stream = new FileInputStream("res/levels/title2.png");
+                stream = new FileInputStream("res/menu/title2.png");
                 ttGameMenu = !ttGameMenu;
             }
         } catch (FileNotFoundException e) {

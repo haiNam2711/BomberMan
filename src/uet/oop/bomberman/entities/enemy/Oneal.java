@@ -57,7 +57,31 @@ public class Oneal extends Enemy {
             y = bfsNode.getY();
             direction = -1;
         } else {
-            this.randomMove();
+            if (direction != -1) {
+                randomMove();
+                return;
+            }
+            boolean isBiggerX = bomberX > x;
+            boolean isBiggerY = bomberY > y;
+            if (x == bomberX) {
+                direction = isBiggerY? 0:1;
+                randomMove();
+                return;
+            }
+            if (y == bomberY) {
+                direction = isBiggerX? 2:3;
+                randomMove();
+                return;
+            }
+            if (Math.abs(bomberX-x) > Math.abs(bomberY-y)) {
+                direction = isBiggerX? 2:3;
+                randomMove();
+                return;
+            }
+            direction = isBiggerY? 0:1;
+            randomMove();
+            return;
+
         }
     }
 }

@@ -2,7 +2,7 @@ package uet.oop.bomberman;
 
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.item.Item;
+import uet.oop.bomberman.entities.item.Item;
 
 public interface CheckCollideBomber {
     default boolean checkCollideBomber(Entity e, Bomber b) {

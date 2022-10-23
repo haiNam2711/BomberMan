@@ -12,10 +12,10 @@ import uet.oop.bomberman.entities.maptexture.Grass;
 import uet.oop.bomberman.entities.maptexture.Portal;
 import uet.oop.bomberman.entities.maptexture.Wall;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.item.BombItem;
-import uet.oop.item.FlameItem;
-import uet.oop.item.Item;
-import uet.oop.item.SpeedItem;
+import uet.oop.bomberman.entities.item.BombItem;
+import uet.oop.bomberman.entities.item.FlameItem;
+import uet.oop.bomberman.entities.item.Item;
+import uet.oop.bomberman.entities.item.SpeedItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class GameMap {
     public static int gameLvl = 1;
 
     public static void render(GraphicsContext gc, Canvas canvas) {
-        gc.clearRect(0, 0, WIDTH*32, HEIGHT*32);
+        gc.clearRect(0, 0, WIDTH * 32, HEIGHT * 32);
 
         try {
             //clear broken items
@@ -84,6 +84,15 @@ public class GameMap {
 
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
+                if (tmpMap[i].charAt(j) == 'x') {
+                    System.out.println(i);
+                    System.out.println(j);
+                }
+            }
+            System.out.println();
+        }
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
                 Entity object;
                 if (tmpMap[i].charAt(j) == '#') {
                     object = new Wall(j, i, Sprite.wall.getFxImage());
@@ -96,10 +105,10 @@ public class GameMap {
                 } else if (tmpMap[i].charAt(j) == '*') {
                     object = new Brick(j, i, Sprite.brick.getFxImage());
                     GameMap.bricks.add((Brick) object);
-                } else if (tmpMap[i].charAt(j) == '1') {
+                } else if (tmpMap[i].charAt(j) == '2') {
                     object = new Balloon(j, i, Sprite.balloom_dead.getFxImage());
                     GameMap.enemies.add((Balloon) object);
-                } else if (tmpMap[i].charAt(j) == '2') {
+                } else if (tmpMap[i].charAt(j) == '1') {
                     Oneal oneal = new Oneal(j, i, Sprite.oneal_dead.getFxImage());
                     GameMap.enemies.add(oneal);
                 } else if (tmpMap[i].charAt(j) == '3') {
@@ -114,7 +123,7 @@ public class GameMap {
                 } else if (tmpMap[i].charAt(j) == '6') {
                     object = new Ovapi(j, i, Sprite.ovapi_dead.getFxImage());
                     GameMap.enemies.add((Ovapi) object);
-                }else if (tmpMap[i].charAt(j) == 's') {
+                } else if (tmpMap[i].charAt(j) == 's') {
                     object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
                     GameMap.items.add((SpeedItem) object);
                     object = new Brick(j, i, Sprite.brick.getFxImage());
