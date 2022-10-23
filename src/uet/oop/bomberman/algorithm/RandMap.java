@@ -132,7 +132,6 @@ public class RandMap {
     }
 
     private boolean randEntities() {
-        System.out.println(autoMoveEnemyNumber);
         int entityNumber = enemyNumber + autoMoveEnemyNumber + 1;
         entities.clear();
         int entityCounter = 0;
@@ -235,7 +234,6 @@ public class RandMap {
             autoMoveEnemyNumber = 1;
         } else {
             autoMoveEnemyNumber = 2;
-            System.out.println(autoMoveEnemyNumber);
         }
         wallNumber = generator.nextInt((5 - 0) + 1) + 65;
         brickNumber = generator.nextInt((5 - 0) + 1) + 60;

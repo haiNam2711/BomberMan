@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.enemy;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.BrokenEntity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.GameMap;
 
@@ -29,6 +30,7 @@ public class Doll extends Enemy {
     public void update() {
         if (!isExisting()) {
             new BombermanGame().setGamePoint(BombermanGame.getGamePoint() + 100);
+            GameMap.brokenEntities.add(new BrokenEntity(x,y,3));
             return;
         }
         if (BombermanGame.isInRandomMapMode) randomMove(); else higherLevelRandomMove();
