@@ -45,7 +45,7 @@ public class Bomb extends Entity {
     public void addFlameFourDirection() {
         Image imageHorizontal = Sprite.movingSprite(Sprite.explosion_horizontal, Sprite.explosion_horizontal1, Sprite.explosion_horizontal2, 60, 60).getFxImage();
         Image imageVertical = Sprite.movingSprite(Sprite.explosion_vertical, Sprite.explosion_vertical1, Sprite.explosion_vertical2, 60, 60).getFxImage();
-        flames.add(new Flame(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE, Sprite.explosion_vertical1.getFxImage()));
+        flames.add(new Flame(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE, Sprite.bomb_exploded.getFxImage()));
         addFlameDirection(0, imageVertical);
         addFlameDirection(1, imageVertical);
         addFlameDirection(2, imageHorizontal);

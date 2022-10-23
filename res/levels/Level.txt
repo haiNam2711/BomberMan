@@ -28,8 +28,8 @@ x - Portal
 
 Character:
 p - Bomber
-1 - Balloon
-2 - Oneal
+2 - Balloon
+1 - Oneal
 
 Items:
 b - Bomb Item

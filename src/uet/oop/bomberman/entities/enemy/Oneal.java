@@ -5,6 +5,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.algorithm.Bfs;
 import uet.oop.bomberman.algorithm.BfsNode;
 import uet.oop.bomberman.entities.Bomber;
+import uet.oop.bomberman.entities.BrokenEntity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.GameMap;
 
@@ -26,6 +27,7 @@ public class Oneal extends Enemy {
         }
         if (!existing){
             new BombermanGame().setGamePoint(BombermanGame.getGamePoint()+100);
+            GameMap.brokenEntities.add(new BrokenEntity(x,y,1));
             return;
         }
         //randomMove();

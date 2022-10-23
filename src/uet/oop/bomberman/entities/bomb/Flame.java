@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.bomb;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.BrokenEntity;
 import uet.oop.bomberman.map.GameMap;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
@@ -29,6 +30,7 @@ public class Flame extends Entity {
             if (this.checkCollide(brick)) {
                 this.setExisting(false);
                 brick.setExisting(false);
+                GameMap.brokenEntities.add(new BrokenEntity(brick.getX(),brick.getY(),0));
             }
         }
         for (Enemy enemy: GameMap.enemies) {

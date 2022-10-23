@@ -3,6 +3,7 @@ package uet.oop.bomberman.map;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.Bomber;
+import uet.oop.bomberman.entities.BrokenEntity;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
@@ -34,6 +35,8 @@ public class GameMap {
     public static List<Enemy> enemies = new ArrayList<>();
     public static List<Bomb> bombs = new ArrayList<>();
     public static List<Item> items = new ArrayList<>();
+    public static List<BrokenEntity> brokenEntities = new ArrayList<uet.oop.bomberman.entities.BrokenEntity>();
+
     public static Bomber bomberMan;//= new Bomber();
     public static int gameLvl = 1;
 
@@ -45,6 +48,7 @@ public class GameMap {
             bricks.removeIf(g -> !g.isExisting());
             items.removeIf(g -> !g.isExisting());
             enemies.removeIf(g -> !g.isExisting());
+            brokenEntities.removeIf(g -> !g.isExisting());
             for (Bomb bomb : bombs) {
                 if (!bomb.isExisting()) continue;
                 bomb.getFlames().removeIf(g -> !g.isExisting());
@@ -65,13 +69,15 @@ public class GameMap {
             //rendering
             walls.forEach(g -> g.render(gc));
             grasses.forEach(g -> g.render(gc));
-            portals.forEach(g -> g.render(gc));
+            bombs.forEach(g -> g.render(gc));
             for (Bomb bomb : bombs) {
                 bomb.getFlames().forEach(g -> g.render(gc));
             }
+            portals.forEach(g -> g.render(gc));
             items.forEach(g -> g.render(gc));
+            brokenEntities.forEach(g -> g.render(gc));
+
             bricks.forEach(g -> g.render(gc));
-            bombs.forEach(g -> g.render(gc));
             enemies.forEach(g -> g.render(gc));
             bomberMan.render(gc);
         } catch (Exception e) {
@@ -82,15 +88,6 @@ public class GameMap {
     public static void createMap() {
         String[] tmpMap = GameMap.map[gameLvl];
 
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                if (tmpMap[i].charAt(j) == 'x') {
-                    System.out.println(i);
-                    System.out.println(j);
-                }
-            }
-            System.out.println();
-        }
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 Entity object;
@@ -112,16 +109,16 @@ public class GameMap {
                     Oneal oneal = new Oneal(j, i, Sprite.oneal_dead.getFxImage());
                     GameMap.enemies.add(oneal);
                 } else if (tmpMap[i].charAt(j) == '3') {
-                    object = new Doll(j, i, Sprite.doll_dead.getFxImage());
+                    object = new Doll(j, i, Sprite.doll_left1.getFxImage());
                     GameMap.enemies.add((Doll) object);
                 } else if (tmpMap[i].charAt(j) == '4') {
-                    object = new Minvo(j, i, Sprite.minvo_dead.getFxImage());
+                    object = new Minvo(j, i, Sprite.minvo_left1.getFxImage());
                     GameMap.enemies.add((Minvo) object);
                 } else if (tmpMap[i].charAt(j) == '5') {
-                    object = new Kondoria(j, i, Sprite.kondoria_dead.getFxImage());
+                    object = new Kondoria(j, i, Sprite.kondoria_left1.getFxImage());
                     GameMap.enemies.add((Kondoria) object);
                 } else if (tmpMap[i].charAt(j) == '6') {
-                    object = new Ovapi(j, i, Sprite.ovapi_dead.getFxImage());
+                    object = new Ovapi(j, i, Sprite.ovapi_left1.getFxImage());
                     GameMap.enemies.add((Ovapi) object);
                 } else if (tmpMap[i].charAt(j) == 's') {
                     object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
