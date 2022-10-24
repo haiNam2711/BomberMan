@@ -2,11 +2,9 @@ package uet.oop.bomberman.entities.enemy;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.BrokenEntity;
+import uet.oop.bomberman.entities.maptexture.BrokenEntity;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.map.GameMap;
-
-import java.util.Random;
 
 public class Doll extends Enemy {
     public Doll(int xUnit, int yUnit, Image img) {

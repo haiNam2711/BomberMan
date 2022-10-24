@@ -3,14 +3,14 @@ package uet.oop.bomberman.map;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.BrokenEntity;
+import uet.oop.bomberman.entities.maptexture.BrokenEntity;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.enemy.*;
 import uet.oop.bomberman.entities.maptexture.Brick;
 import uet.oop.bomberman.entities.maptexture.Grass;
-import uet.oop.bomberman.entities.maptexture.Portal;
+import uet.oop.bomberman.entities.item.Portal;
 import uet.oop.bomberman.entities.maptexture.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.entities.item.BombItem;
@@ -19,6 +19,7 @@ import uet.oop.bomberman.entities.item.Item;
 import uet.oop.bomberman.entities.item.SpeedItem;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class GameMap {
@@ -35,7 +36,7 @@ public class GameMap {
     public static List<Enemy> enemies = new ArrayList<>();
     public static List<Bomb> bombs = new ArrayList<>();
     public static List<Item> items = new ArrayList<>();
-    public static List<BrokenEntity> brokenEntities = new ArrayList<uet.oop.bomberman.entities.BrokenEntity>();
+    public static List<BrokenEntity> brokenEntities = new ArrayList<BrokenEntity>();
 
     public static Bomber bomberMan;//= new Bomber();
     public static int gameLvl = 1;
@@ -49,10 +50,12 @@ public class GameMap {
             items.removeIf(g -> !g.isExisting());
             enemies.removeIf(g -> !g.isExisting());
             brokenEntities.removeIf(g -> !g.isExisting());
-            for (Bomb bomb : bombs) {
-                if (!bomb.isExisting()) continue;
-                bomb.getFlames().removeIf(g -> !g.isExisting());
-            }
+            try {
+                for (Bomb bomb : bombs) {
+                    if (!bomb.isExisting()) continue;
+                    bomb.getFlames().removeIf(g -> !g.isExisting());
+                }
+            } catch (ConcurrentModificationException e) { }
 
             //updating
             portals.forEach(Portal::update);

@@ -1,17 +1,15 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.maptexture;
 
-import javafx.scene.image.Image;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BrokenEntity extends Entity {
-    @Override
-    public void update() {
-    }
+public class BrokenEntity extends MapTexture {
 
     public BrokenEntity(int x, int y, int type) {
+        super();
         this.x = x;
         this.y = y;
         final BrokenEntity brokenEntity = this;
