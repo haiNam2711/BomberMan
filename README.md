@@ -15,7 +15,7 @@ Phát triển game Bomberman kinh điển của NES.
 ## Các thành viên và nhiệm vụ
 - Nguyễn Hải Nam(Leader) [haiNam2711](https://github.com/haiNam2711)
   * Contribute: Core game, Algorithm.
-- Trần Thị Vân Anh [Hnanav](https://github.com/Hnanav)
+- Phạm Huy Hoàng 
   * Contribute: Enemies, Read Map.
 
 
